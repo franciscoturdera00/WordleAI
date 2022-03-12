@@ -26,7 +26,7 @@ def play(strat_type, word_bank, answer, attempts_left, print_mode=False):
 def choose_strategy(strategy, word_bank, answer_length):
     if strategy == "random":
         return RandomStrategy(word_bank, answer_length)
-    if strategy == "basic_filter":
+    if strategy == "dumb_filter":
         return BasicFilterStrategy(word_bank, answer_length)
     else:
         exit("No valid strategy")
@@ -34,20 +34,20 @@ def choose_strategy(strategy, word_bank, answer_length):
 
 def analyze_guess(guess, answer):
     """Returns information of the guess in relation to the correct answer"""
-    feedback = []
-    found_letters = dict.fromkeys(list_of_letters, 0)
+    feedback = [None] * len(answer)
+    correct_found = dict.fromkeys(list_of_letters, 0)
     for i, c in enumerate(answer):
         if guess[i] == c:
-            feedback.append(Feedback.CORRECT)
-            found_letters[c] += 1
-        elif guess[i] in answer:
-            if found_letters[c] < answer.count(c):
-                feedback.append(Feedback.IN_WORD)
-                found_letters[c] += 1
-            else:
-                feedback.append(Feedback.NOT_IN_WORD)
-        else:
-            feedback.append(Feedback.NOT_IN_WORD)
+            feedback[i] = Feedback.CORRECT
+            correct_found[c] += 1
+    for i, c in enumerate(answer):
+        if guess[i] == c:
+            continue
+        if guess[i] in answer and correct_found[guess[i]] < answer.count(guess[i]):
+            feedback[i] = Feedback.IN_WORD
+    for i, c in enumerate(answer):
+        if feedback[i] is None:
+            feedback[i] = Feedback.NOT_IN_WORD
     return feedback
 
 
@@ -69,10 +69,10 @@ def print_progress(guess, feedback):
 def initiate_parser():
     parser = argparse.ArgumentParser(description='Wordle AI')
     parser.add_argument('-s', '--strategy', dest='strategy', nargs='?', default='random', const='random',
-                        type=str, help='Strategy used in the game. Options include: random, basic_filter')
+                        type=str, help='Strategy used in the game. Options include: random, dumb_filter')
     parser.add_argument('-wb', '--wordbank', dest='word_bank', nargs='?', default="word_banks/test.txt",
                         const="word_banks/test.txt", type=str, help="File Path for word bank to be used")
-    parser.add_argument('-w', '--word', dest='word', type=str, help='Word to guess')
+    parser.add_argument('-w', '--word', dest='word', type=str, required=True, help='Word to guess')
     parser.add_argument('-a', '--attempts', dest='attempts', nargs='?', default=6, const=6, type=int,
                         help='Attempts the AI receives')
     parser.add_argument('-p', '--print', dest='print_mode', action='store_true', default=False,
