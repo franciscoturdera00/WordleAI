@@ -1,7 +1,7 @@
 import string
 import argparse
 
-from strategies.basic_filter import BasicFilterStrategy
+from strategies.dumb_filter import DumbFilterStrategy
 from strategies.feedback import Feedback
 from strategies.random_strategy import RandomStrategy
 
@@ -27,7 +27,7 @@ def choose_strategy(strategy, word_bank, answer_length):
     if strategy == "random":
         return RandomStrategy(word_bank, answer_length)
     if strategy == "dumb_filter":
-        return BasicFilterStrategy(word_bank, answer_length)
+        return DumbFilterStrategy(word_bank, answer_length)
     else:
         exit("No valid strategy")
 

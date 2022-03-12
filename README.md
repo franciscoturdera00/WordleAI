@@ -2,12 +2,15 @@
 
 An AI that plays a Wordle-like game.
 
-<pre>
-usage: wordle_ai.py [-h] [-s [STRATEGY]] [-wb [WORD_BANK]] -w WORD [-a [ATTEMPTS]] [-p]
-</pre>
-Wordle AI
+###Requirements:
+<pre>Python3</pre>
 
-optional arguments:
+###Usage
+<pre>
+wordle_ai.py [-h] [-s [STRATEGY]] [-wb [WORD_BANK]] -w WORD [-a [ATTEMPTS]] [-p]
+</pre>
+
+###optional arguments:
 <pre>
 -h, --help                                 show this help message and exit
 

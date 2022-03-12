@@ -1,7 +1,7 @@
 from strategies.Strategy import Strategy
 
 
-class BasicFilterStrategy(Strategy):
+class DumbFilterStrategy(Strategy):
 
     def feedback(self, guess, feedback):
         pass
