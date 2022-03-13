@@ -1,4 +1,7 @@
-from util.functions import choose_strategy, analyze_guess, print_progress
+from game_logic.analyzer import analyze_guess
+from strategies.random_strategy import RandomStrategy
+from strategies.simple_filter import SimpleFilterStrategy
+from util.functions import print_progress
 
 
 def play_ai(strat_type, word_bank, answer, attempts_left, print_mode=False):
@@ -14,3 +17,12 @@ def play_ai(strat_type, word_bank, answer, attempts_left, print_mode=False):
         if print_mode:
             print_progress(guess, feedback)
     return False, max_attempts
+
+
+def choose_strategy(strategy, word_bank, answer_length):
+    if strategy == "random":
+        return RandomStrategy(word_bank, answer_length)
+    if strategy == "simple_filter":
+        return SimpleFilterStrategy(word_bank, answer_length)
+    else:
+        exit("Not a valid strategy")
