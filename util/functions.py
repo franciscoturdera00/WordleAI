@@ -1,4 +1,5 @@
 import os
+import random
 from pathlib import Path
 
 from strategies.feedback import Feedback
@@ -12,10 +13,18 @@ def get_parent_path():
     return str(path.parent.absolute())
 
 
-def get_official_list():
-    with open(get_parent_path() + "/word_banks/wordle_official_list.txt") as f:
+def get_word_list_from(path):
+    with open(path) as f:
         official_list = [x.replace("\n", "") for x in f.readlines()]
     return set(official_list)
+
+
+def get_official_list():
+    return get_word_list_from(get_parent_path() + "/word_banks/wordle_official_list.txt")
+
+
+def get_all_5_letter_words():
+    return get_word_list_from(get_parent_path() + "/word_banks/5_letters.txt")
 
 
 def print_progress(guess, feedback):
@@ -60,3 +69,7 @@ def analyze_guess(guess, answer):
             feedback[i] = Feedback.IN_WORD
             letter_found[guess[i]] += 1
     return feedback
+
+
+def generate_word_from(word_bank):
+    return random.sample(word_bank, 1)[0]
