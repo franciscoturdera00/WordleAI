@@ -1,7 +1,7 @@
 from unittest import TestCase
 
+from game_logic.analyzer import analyze_guess
 from strategies.feedback import Feedback
-from util.functions import analyze_guess
 
 
 class Test(TestCase):
