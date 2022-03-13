@@ -32,5 +32,4 @@ class SimpleFilterStrategy(Strategy):
                 for word in static_words:
                     if word.count(letter) > valid_times:
                         self.possible_answers.remove(word)
-        print(len(self.possible_answers))
 
