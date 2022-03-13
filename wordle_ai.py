@@ -67,7 +67,7 @@ def print_progress(guess, feedback):
 
 def initiate_parser():
     parser = argparse.ArgumentParser(description='Wordle AI')
-    parser.add_argument('-s', '--strategy', dest='strategy', nargs='?', default='random', const='random',
+    parser.add_argument('-s', '--strategy', dest='strategy', nargs='?', default='simple_filter', const='simple_filter',
                         type=str, help='Strategy used in the game. Options include: random, simple_filter')
     parser.add_argument('-wb', '--wordbank', dest='word_bank', nargs='?', default="word_banks/wordle_official_list.txt",
                         const="word_banks/test.txt", type=str, help="File Path for word bank to be used")
