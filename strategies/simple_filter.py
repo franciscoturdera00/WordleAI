@@ -24,3 +24,13 @@ class SimpleFilterStrategy(Strategy):
                 if letter_found[ch] > word.count(ch):
                     self.possible_answers.remove(word)
 
+        for i, feed in enumerate(feedback):
+            if feed == Feedback.NOT_IN_WORD:
+                letter = guess[i]
+                valid_times = letter_found[letter]
+                static_words = self.possible_answers.copy()
+                for word in static_words:
+                    if word.count(letter) > valid_times:
+                        self.possible_answers.remove(word)
+        print(len(self.possible_answers))
+
