@@ -30,17 +30,22 @@ class Test(TestCase):
         path = Path(os.getcwd())
         return str(path.parent.absolute())
 
+    def get_official_list(self):
+        with open(self.getParentPath() + "/word_banks/wordle_official_list.txt") as f:
+            official_list = [x.replace("\n", "") for x in f.readlines()]
+        return set(official_list)
+
     def test_random_strategy(self):
 
         for i in range(100):
             try:
-                play("random", self.getParentPath() + "/word_banks/wordle_official_list.txt", "words", 10)
+                play("random", self.get_official_list(), "words", 10)
             except RuntimeError:
                 print("RandomStrategy failed in %d run: " % i, RuntimeError)
 
     def test_basic_filter_strategy(self):
         for i in range(100):
             try:
-                play("simple_filter", self.getParentPath() + "/word_banks/wordle_official_list.txt", "banks", 10)
+                play("simple_filter", self.get_official_list(), "banks", 10)
             except RuntimeError:
                 print("SimpleFilterStrategy failed in %d run: " % i, RuntimeError)
