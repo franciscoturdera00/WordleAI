@@ -5,9 +5,7 @@ from strategies.space import Space
 class Strategy:
 
     def __init__(self, word_bank, length_of_word):
-        with open(word_bank) as f:
-            self.possible_answers = [x.replace("\n", "") for x in f.readlines()]
-        self.possible_answers = set(self.possible_answers)
+        self.possible_answers = word_bank
         solution = {}
         for i in range(length_of_word):
             solution[i] = Space()

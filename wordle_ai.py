@@ -1,11 +1,9 @@
-import string
 import argparse
 
-from strategies.dumb_filter import DumbFilterStrategy
+from strategies.simple_filter import SimpleFilterStrategy
 from strategies.feedback import Feedback
 from strategies.random_strategy import RandomStrategy
-
-list_of_letters = list(string.ascii_lowercase)
+from util.constants import LIST_OF_LETTERS
 
 
 def play(strat_type, word_bank, answer, attempts_left, print_mode=False):
@@ -26,16 +24,19 @@ def play(strat_type, word_bank, answer, attempts_left, print_mode=False):
 def choose_strategy(strategy, word_bank, answer_length):
     if strategy == "random":
         return RandomStrategy(word_bank, answer_length)
-    if strategy == "dumb_filter":
-        return DumbFilterStrategy(word_bank, answer_length)
+    if strategy == "simple_filter":
+        return SimpleFilterStrategy(word_bank, answer_length)
     else:
-        exit("No valid strategy")
+        exit("Not a valid strategy")
 
 
 def analyze_guess(guess, answer):
     """Returns information of the guess in relation to the correct answer"""
-    feedback = [None] * len(answer)
-    correct_found = dict.fromkeys(list_of_letters, 0)
+    if len(guess) != len(answer):
+        exit("Word Bank or Word contains wrong length words")
+    feedback = [Feedback.NOT_IN_WORD] * len(answer)
+    correct_found = dict.fromkeys(LIST_OF_LETTERS, 0)
+    letter_found = dict.fromkeys(LIST_OF_LETTERS, 0)
     for i, c in enumerate(answer):
         if guess[i] == c:
             feedback[i] = Feedback.CORRECT
@@ -43,11 +44,9 @@ def analyze_guess(guess, answer):
     for i, c in enumerate(answer):
         if guess[i] == c:
             continue
-        if guess[i] in answer and correct_found[guess[i]] < answer.count(guess[i]):
+        if guess[i] in answer and correct_found[guess[i]] + letter_found[guess[i]] < answer.count(guess[i]):
             feedback[i] = Feedback.IN_WORD
-    for i, c in enumerate(answer):
-        if feedback[i] is None:
-            feedback[i] = Feedback.NOT_IN_WORD
+            letter_found[guess[i]] += 1
     return feedback
 
 
@@ -69,8 +68,8 @@ def print_progress(guess, feedback):
 def initiate_parser():
     parser = argparse.ArgumentParser(description='Wordle AI')
     parser.add_argument('-s', '--strategy', dest='strategy', nargs='?', default='random', const='random',
-                        type=str, help='Strategy used in the game. Options include: random, dumb_filter')
-    parser.add_argument('-wb', '--wordbank', dest='word_bank', nargs='?', default="word_banks/test.txt",
+                        type=str, help='Strategy used in the game. Options include: random, simple_filter')
+    parser.add_argument('-wb', '--wordbank', dest='word_bank', nargs='?', default="word_banks/wordle_official_list.txt",
                         const="word_banks/test.txt", type=str, help="File Path for word bank to be used")
     parser.add_argument('-w', '--word', dest='word', type=str, required=True, help='Word to guess')
     parser.add_argument('-a', '--attempts', dest='attempts', nargs='?', default=6, const=6, type=int,
@@ -83,8 +82,10 @@ def initiate_parser():
 
 if __name__ == '__main__':
     args = initiate_parser()
-    win, attempts = play(args.strategy, args.word_bank, args.word, args.attempts, args.print_mode)
-    # win, attempts = play("random", "word_banks/5_letters.txt", word, 6, True)
+    with open(args.word_bank) as f:
+        word_bank = [x.replace("\n", "") for x in f.readlines()]
+    word_bank = set(word_bank)
+    win, attempts = play(args.strategy, word_bank, args.word, args.attempts, args.print_mode)
     if win:
         print("Win in %d attempts! Word: %s" % (attempts, args.word))
     else:

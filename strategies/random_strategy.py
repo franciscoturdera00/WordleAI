@@ -1,4 +1,3 @@
-
 from strategies.Strategy import Strategy
 
 
