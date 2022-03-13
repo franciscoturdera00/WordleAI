@@ -3,12 +3,13 @@ from strategies.space import Space
 
 
 class Strategy:
+    """Parent Class for all Strategies"""
 
     def __init__(self, word_bank, length_of_word):
         self.possible_answers = word_bank
-        solution = {}
-        for i in range(length_of_word):
-            solution[i] = Space()
+        # solution = {}
+        # for i in range(length_of_word):
+        #     solution[i] = Space()
 
     def guess(self):
         """Returns the guess that this Strategy takes based on its current state"""
