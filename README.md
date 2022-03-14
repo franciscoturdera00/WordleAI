@@ -31,12 +31,12 @@ random            Picks guesses at random
 
 simple_filter     Reduces sample size given the feedback from previous guess
 
-smart_guess       Chooses guess intelligently by finding frequency of letters to eliminate as many
-                  options as possible and reduces sample size given the feedback from guess
+smart_guess       Chooses guess intelligently by finding frequency of letters to eliminate as
+                  many options as possible and reduces sample size given the feedback from guess
 
 index_decision    Chooses guess intelligently by finding frequency of letters at each index of
-                  the word to eliminate as many options as possible and reduces sample size given
-                  the feedback from guess
+                  the word to eliminate as many options as possible and reduces sample size
+                  given the feedback from guess
 </pre>
 
 There are various [word banks](word_banks/) available for user.
