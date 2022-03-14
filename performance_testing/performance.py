@@ -27,6 +27,16 @@ def test_simple_filter_performance_with_all_5_letter_words(print_mode=False):
     return test_performance("simple_filter", lst, PERFORMANCE_MARKER, print_mode)
 
 
+def test_smart_guess_with_official_wordle_list(print_mode=False):
+    official_list = get_official_list()
+    return test_performance("smart_guess", official_list, 100, print_mode)
+
+
+def test_smart_guess_with_all_5_letter_words(print_mode=False):
+    lst = get_all_5_letter_words()
+    return test_performance("smart_guess", lst, PERFORMANCE_MARKER, print_mode)
+
+
 def display_performance(strategy, average):
     print(strategy + " with Official Wordle List Average Number of Attempts: " + str(average))
 
@@ -35,6 +45,8 @@ def run_all():
     print("Testing Performance")
     display_performance("Simple Filter", test_simple_filter_performance_with_official_wordle_list(True))
     display_performance("Simple Filter", test_simple_filter_performance_with_all_5_letter_words(True))
+    display_performance("Smart Guess", test_smart_guess_with_official_wordle_list(True))
+    display_performance("Smart Guess", test_smart_guess_with_all_5_letter_words(True))
 
 
 if __name__ == '__main__':
@@ -47,5 +59,9 @@ if __name__ == '__main__':
             display_performance("Simple Filter", test_simple_filter_performance_with_official_wordle_list(True))
         elif args.strategy == 'simple_filter_all_5':
             display_performance("Simple Filter", test_simple_filter_performance_with_all_5_letter_words(True))
+        elif args.strategy == "smart_guess_official":
+            display_performance("Smart Guess", test_smart_guess_with_official_wordle_list(True))
+        elif args.strategy == "smart_guess_all_5":
+            display_performance("Smart Guess", test_smart_guess_with_all_5_letter_words(True))
         else:
             exit("Not a valid request")
