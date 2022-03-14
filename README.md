@@ -27,15 +27,16 @@ wordle_ai.py [-h] [-s STRATEGY] [-wb WORD_BANK] -w WORD [-a ATTEMPTS] [-p]
 
 ### Strategies:
 <pre>
-random: Picks guesses at random
+random            Picks guesses at random
 
-simple_filter: Reduces sample size given the feedback from previous guess
+simple_filter     Reduces sample size given the feedback from previous guess
 
-smart_guess: chooses guess intelligently by finding frequency of letters to eliminate as many
-options as possible and reduces sample size given the feedback from guess
+smart_guess       Chooses guess intelligently by finding frequency of letters to eliminate as many
+                  options as possible and reduces sample size given the feedback from guess
 
-index_decision: chooses guess intelligently by finding frequency of letters at each index of the word
-to eliminate as many options as possible and reduces sample size given the feedback from guess
+index_decision    Chooses guess intelligently by finding frequency of letters at each index of
+                  the word to eliminate as many options as possible and reduces sample size given
+                  the feedback from guess
 </pre>
 
 There are various [word banks](word_banks/) available for user.
@@ -63,17 +64,17 @@ Not adding any arguments will run all performance tests.
 
 ### Performance Strategy Options:
 <pre>
-simple_filter_official: Simple Filter against the official Wordle word list
+simple_filter_official    Simple Filter against the official Wordle word list
 
-simple_filter_all_5: Simple Filter against a word bank with all 5 letter words
+simple_filter_all_5       Simple Filter against a word bank with all 5 letter words
 
-smart_guess_official: Smart Guess against the official Wordle word list
+smart_guess_official      Smart Guess against the official Wordle word list
 
-smart_guess_all_5: Smart Guess against a word bank with all 5 letter words
+smart_guess_all_5         Smart Guess against a word bank with all 5 letter words
 
-index_decision_official: Index Decision against the official Wordle word list
+index_decision_official   Index Decision against the official Wordle word list
 
-index_decision_all_5: Index Decision against a word bank with all 5 letter words
+index_decision_all_5      Index Decision against a word bank with all 5 letter words
 </pre>
 
 Current Performance Information can be found [here](performance_analytics/analytics.json).
