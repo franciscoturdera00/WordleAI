@@ -1,4 +1,3 @@
-import os
 import random
 
 from strategies.feedback import Feedback
@@ -11,16 +10,10 @@ def get_word_list_from(path):
 
 
 def get_official_list(path):
-    # added = ""
-    # if os.getenv("GITHUB_ACTION") is not None:
-    #     added = "WordleAI/"
     return get_word_list_from(path + "/word_banks/wordle_official_list.txt")
 
 
 def get_all_5_letter_words(path):
-    # added = ""
-    # if os.getenv("GITHUB_ACTION") is not None:
-    #     added = "WordleAI/"
     return get_word_list_from(path + "/word_banks/5_letters.txt")
 
 
