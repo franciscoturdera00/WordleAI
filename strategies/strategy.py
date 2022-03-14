@@ -1,5 +1,4 @@
 import random
-from strategies.space import Space
 
 
 class Strategy:

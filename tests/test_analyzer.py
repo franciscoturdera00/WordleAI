@@ -21,3 +21,15 @@ class Test(TestCase):
         dared_expected = [Feedback.IN_WORD, Feedback.NOT_IN_WORD, Feedback.CORRECT,
                           Feedback.NOT_IN_WORD, Feedback.NOT_IN_WORD]
         self.assertEqual(dared_expected, analyze_guess("dared", "words"))
+
+        multiple_repeat = [Feedback.CORRECT, Feedback.NOT_IN_WORD, Feedback.NOT_IN_WORD,
+                           Feedback.CORRECT, Feedback.NOT_IN_WORD]
+        self.assertEqual(multiple_repeat, analyze_guess("props", "ppppp"))
+
+        only_one_in = [Feedback.IN_WORD, Feedback.NOT_IN_WORD, Feedback.NOT_IN_WORD,
+                       Feedback.NOT_IN_WORD, Feedback.NOT_IN_WORD, Feedback.NOT_IN_WORD]
+        self.assertEqual(only_one_in, analyze_guess("pppkpp", "respta"))
+
+        two_in = [Feedback.NOT_IN_WORD, Feedback.IN_WORD, Feedback.IN_WORD,
+                  Feedback.NOT_IN_WORD, Feedback.NOT_IN_WORD, Feedback.NOT_IN_WORD]
+        self.assertEqual(two_in, analyze_guess("kppkpp", "pespta"))

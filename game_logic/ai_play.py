@@ -1,4 +1,5 @@
 from game_logic.analyzer import analyze_guess
+from strategies.index_decision import IndexDecisionStrategy
 from strategies.random_strategy import RandomStrategy
 from strategies.simple_filter import SimpleFilterStrategy
 from strategies.smart_guess import SmartGuessStrategy
@@ -29,5 +30,7 @@ def choose_strategy(strategy, word_bank, answer_length):
         return SimpleFilterStrategy(word_bank, answer_length)
     if strategy == "smart_guess":
         return SmartGuessStrategy(word_bank, answer_length)
+    if strategy == "index_decision":
+        return IndexDecisionStrategy(word_bank, answer_length)
     else:
         exit("Not a valid strategy")
