@@ -31,8 +31,8 @@ random: Picks guesses at random
 
 simple_filter: Reduces sample size given the feedback from previous guess
 
-smart_guess: chooses guess intelligently by finding frequency of letters to eliminate as many options as possible
-and reduces sample size given the feedback from guess
+smart_guess: chooses guess intelligently by finding frequency of letters to eliminate as many
+options as possible and reduces sample size given the feedback from guess
 </pre>
 
 There are various [word banks](word_banks/) available for user.
