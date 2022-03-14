@@ -1,8 +1,12 @@
+import os
+from pathlib import Path
+
 from config.performance_parser import performance_parser
 from game_logic.ai_play import play_ai
 from util.functions import get_official_list, generate_word_from, get_all_5_letter_words
 
 PERFORMANCE_MARKER = 1000
+current_path = str(Path(os.getcwd()))
 
 
 def test_performance(strategy, word_bank, performance_marker, print_mode=False):
@@ -18,22 +22,22 @@ def test_performance(strategy, word_bank, performance_marker, print_mode=False):
 
 
 def test_simple_filter_performance_with_official_wordle_list(print_mode=False):
-    official_list = get_official_list()
+    official_list = get_official_list(current_path)
     return test_performance("simple_filter", official_list, PERFORMANCE_MARKER, print_mode)
 
 
 def test_simple_filter_performance_with_all_5_letter_words(print_mode=False):
-    lst = get_all_5_letter_words()
+    lst = get_all_5_letter_words(current_path)
     return test_performance("simple_filter", lst, PERFORMANCE_MARKER, print_mode)
 
 
 def test_smart_guess_with_official_wordle_list(print_mode=False):
-    official_list = get_official_list()
-    return test_performance("smart_guess", official_list, 100, print_mode)
+    official_list = get_official_list(current_path)
+    return test_performance("smart_guess", official_list, PERFORMANCE_MARKER, print_mode)
 
 
 def test_smart_guess_with_all_5_letter_words(print_mode=False):
-    lst = get_all_5_letter_words()
+    lst = get_all_5_letter_words(current_path)
     return test_performance("smart_guess", lst, PERFORMANCE_MARKER, print_mode)
 
 
