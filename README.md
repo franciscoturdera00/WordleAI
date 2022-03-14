@@ -36,3 +36,26 @@ and reduces sample size given the feedback from guess
 </pre>
 
 There are various [word banks](word_banks/) available for user.
+
+### Performance:
+
+<pre>
+usage: performance.py [-h] [-s STRATEGY]
+
+Performance Testing
+
+optional arguments:
+  -h, --help                         show this help message and exit
+  -s STRATEGY, --strategy STRATEGY   Strategy to test performance for
+</pre>
+
+### Performance Strategy Options:
+<pre>
+simple_filter_official: Simple Filter against the official Wordle word list
+
+simple_filter_all_5: Simple Filter against a word bank with all 5 letter words
+
+smart_guess_official: Smart Guess against the official Wordle word list
+
+smart_guess_all_5: Smart Guess against a word bank with all 5 letter words
+</pre>
