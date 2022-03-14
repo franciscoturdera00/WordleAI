@@ -41,6 +41,10 @@ to eliminate as many options as possible and reduces sample size given the feedb
 There are various [word banks](word_banks/) available for user.
 
 # Performance:
+
+Runs AI Strategy a large number of times and find the average number of 
+attempts it takes to find solution.
+
 ### Usage
 <pre>
 performance.py [-h] [-s STRATEGY]
@@ -71,3 +75,5 @@ index_decision_official: Index Decision against the official Wordle word list
 
 index_decision_all_5: Index Decision against a word bank with all 5 letter words
 </pre>
+
+Current Performance Information can be found [here](performance_analytics/analytics.json).
