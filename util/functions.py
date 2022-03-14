@@ -33,7 +33,7 @@ def print_progress(guess, feedback):
 
 
 def generate_word_from(word_bank):
-    return random.sample(word_bank, 1)[0]
+    return random.choice(list(word_bank))
 
 
 def quantity_ordered_list(integer_value_map):

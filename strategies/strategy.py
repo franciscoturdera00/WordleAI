@@ -11,7 +11,7 @@ class Strategy:
     def guess(self):
         """Returns the guess that this Strategy takes based on its current state"""
         """Default Strategy: Choose randomly from the sample space"""
-        guess = random.sample(self.possible_answers, 1)[0]
+        guess = random.choice(list(self.possible_answers))
         self.possible_answers.remove(guess)
         return guess
 
