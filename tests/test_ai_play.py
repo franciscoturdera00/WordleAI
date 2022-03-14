@@ -9,7 +9,8 @@ from util.functions import get_official_list, generate_word_from
 class Test(TestCase):
     """Integration Tests: Simply tests the strategies don't crash"""
 
-    parent_path = str(Path(os.getcwd()).parent.absolute())
+    current_file = os.path.dirname(__file__)
+    parent_path = str(Path(current_file).absolute().parent.absolute())
     official_list = get_official_list(parent_path)
 
     def test_random_strategy(self):

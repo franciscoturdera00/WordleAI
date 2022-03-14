@@ -1,10 +1,14 @@
+import os
 import random
 
 from strategies.feedback import Feedback
 
 
 def get_word_list_from(path):
-    with open(path) as f:
+    added = ""
+    if os.getenv("GITHUB_ACTION") is not None:
+        added = "WordleAI/"
+    with open(added + path) as f:
         official_list = [x.replace("\n", "") for x in f.readlines()]
     return set(official_list)
 
