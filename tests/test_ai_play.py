@@ -1,3 +1,5 @@
+import os
+from pathlib import Path
 from unittest import TestCase
 
 from game_logic.ai_play import play_ai
@@ -6,7 +8,9 @@ from util.functions import get_official_list, generate_word_from
 
 class Test(TestCase):
     """Integration Tests: Simply tests the strategies don't crash"""
-    official_list = get_official_list()
+
+    parent_path = str(Path(os.getcwd()).parent.absolute())
+    official_list = get_official_list(parent_path)
 
     def test_random_strategy(self):
         for i in range(100):

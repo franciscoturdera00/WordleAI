@@ -1,13 +1,6 @@
-import os
 import random
-from pathlib import Path
 
 from strategies.feedback import Feedback
-
-
-def get_parent_path():
-    path = Path(os.getcwd())
-    return str(path.parent.absolute())
 
 
 def get_word_list_from(path):
@@ -16,12 +9,12 @@ def get_word_list_from(path):
     return set(official_list)
 
 
-def get_official_list():
-    return get_word_list_from(get_parent_path() + "/word_banks/wordle_official_list.txt")
+def get_official_list(path):
+    return get_word_list_from(path + "/word_banks/wordle_official_list.txt")
 
 
-def get_all_5_letter_words():
-    return get_word_list_from(get_parent_path() + "/word_banks/5_letters.txt")
+def get_all_5_letter_words(path):
+    return get_word_list_from(path + "/word_banks/5_letters.txt")
 
 
 def print_progress(guess, feedback):
