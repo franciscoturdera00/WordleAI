@@ -1,4 +1,4 @@
-from strategies.Strategy import Strategy
+from strategies.strategy import Strategy
 
 
 class RandomStrategy(Strategy):

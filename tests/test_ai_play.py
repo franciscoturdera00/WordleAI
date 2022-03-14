@@ -35,3 +35,11 @@ class Test(TestCase):
                 play_ai("smart_guess", lst, generate_word_from(lst), 10)
             except RuntimeError:
                 print("SmartGuessStrategy failed in %d run: " % i, RuntimeError)
+
+    def test_index_decision_strategy(self):
+        for i in range(100):
+            try:
+                lst = self.official_list.copy()
+                play_ai("index_decision", lst, generate_word_from(lst), 10)
+            except RuntimeError:
+                print("IndexDecisionStrategy failed in %d run: " % i, RuntimeError)
