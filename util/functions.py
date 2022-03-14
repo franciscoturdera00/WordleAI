@@ -41,3 +41,12 @@ def print_progress(guess, feedback):
 
 def generate_word_from(word_bank):
     return random.sample(word_bank, 1)[0]
+
+
+def quantity_ordered_list(integer_value_map):
+    """Returns ordered list in format: [(key34, 86), (key89, 53), (key12, 42)...]"""
+    final_list = []
+    for key in integer_value_map:
+        final_list.append((key, integer_value_map[key]))
+    final_list.sort(key=lambda x: x[1], reverse=True)
+    return final_list

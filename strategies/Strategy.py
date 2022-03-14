@@ -7,9 +7,7 @@ class Strategy:
 
     def __init__(self, word_bank, length_of_word):
         self.possible_answers = word_bank
-        # solution = {}
-        # for i in range(length_of_word):
-        #     solution[i] = Space()
+        self.length_of_word = length_of_word
 
     def guess(self):
         """Returns the guess that this Strategy takes based on its current state"""
