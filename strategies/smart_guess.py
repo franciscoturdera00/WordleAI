@@ -19,7 +19,7 @@ class SmartGuessStrategy(SimpleFilterStrategy):
         ordered_list = quantity_ordered_list(weights)
         standard = ordered_list[0][1]
         filtered = list(filter(lambda x: x[1] == standard, ordered_list))
-        guess = random.sample(filtered, 1)[0][0]
+        guess = random.choice(filtered)[0]
         return guess
 
     @staticmethod
