@@ -6,10 +6,10 @@ from strategies.smart_guess import SmartGuessStrategy
 from util.functions import print_progress
 
 
-def play_ai(strat_type, word_bank, answer, attempts_left, print_mode=False):
+def play_ai(strat_type, word_bank, secret_bank, answer, attempts_left, print_mode=False):
     if answer not in word_bank:
         raise ValueError("Answer is not in Word Bank")
-    strategy = choose_strategy(strat_type, word_bank.copy(), len(answer))
+    strategy = choose_strategy(strat_type, word_bank.copy(), secret_bank.copy(), len(answer))
     max_attempts = attempts_left
     while attempts_left > 0:
         guess = strategy.guess()
@@ -17,24 +17,25 @@ def play_ai(strat_type, word_bank, answer, attempts_left, print_mode=False):
         if guess == answer:
             return True, max_attempts - attempts_left
         try:
-            feedback = analyze_guess(guess, answer, word_bank)
+            feedback = analyze_guess(guess, answer, word_bank, secret_bank)
         except ValueError as e:
             raise e
-        word_bank.remove(guess)
+        word_bank.discard(guess)
+        secret_bank.discard(guess)
         strategy.feedback(guess, feedback)
         if print_mode:
             print_progress(guess, feedback)
     return False, max_attempts
 
 
-def choose_strategy(strategy, word_bank, answer_length):
+def choose_strategy(strategy, word_bank, secret_bank, answer_length):
     if strategy == "random":
-        return RandomStrategy(word_bank, answer_length)
+        return RandomStrategy(word_bank, secret_bank, answer_length)
     if strategy == "simple_filter":
-        return SimpleFilterStrategy(word_bank, answer_length)
+        return SimpleFilterStrategy(word_bank, secret_bank, answer_length)
     if strategy == "smart_guess":
-        return SmartGuessStrategy(word_bank, answer_length)
+        return SmartGuessStrategy(word_bank, secret_bank, answer_length)
     if strategy == "index_decision":
-        return IndexDecisionStrategy(word_bank, answer_length)
+        return IndexDecisionStrategy(word_bank, secret_bank, answer_length)
     else:
         exit("Not a valid strategy")
