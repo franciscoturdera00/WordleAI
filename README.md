@@ -60,7 +60,7 @@ of iterations to ensure convergence.
 
 ### Usage
 <pre>
-performance.py [-h] [-s STRATEGY] [-u] [-p]
+performance.py [-h] [-s STRATEGY [STRATEGY ...]] [-u] [-p]
 </pre>
 
 Not adding any arguments will run all performance tests.
@@ -68,7 +68,7 @@ Not adding any arguments will run all performance tests.
 <pre>
   -h, --help                  show this help message and exit
 
-  -s [STRATEGY [STRATEGY ...]], --strategy [STRATEGY [STRATEGY ...]]
+  -s STRATEGY [STRATEGY ...], --strategy STRATEGY [STRATEGY ...]
                               Strategies to test performance for
 
   -u, --update-analytics      Store analytics gathered
