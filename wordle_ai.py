@@ -3,7 +3,10 @@ from game_logic.ai_play import play_ai
 
 
 def ai_plays(args):
-    win, attempts = play_ai(args.strategy.lower(), word_bank, args.word.lower(), args.attempts, args.print_mode)
+    try:
+        win, attempts = play_ai(args.strategy.lower(), word_bank, args.word.lower(), args.attempts, args.print_mode)
+    except ValueError as e:
+        exit(str(e))
     if win:
         print("Win in %d attempts! Word: %s" % (attempts, args.word))
     else:

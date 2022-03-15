@@ -20,7 +20,7 @@ class SmartGuessStrategy(SimpleFilterStrategy):
         standard = ordered_list[0][1]
         filtered = list(filter(lambda x: x[1] == standard, ordered_list))
         guess = random.choice(filtered)[0]
-        return guess
+        return guess, [self.word_bank]
 
     @staticmethod
     def create_weights(words, ordered_letters):
