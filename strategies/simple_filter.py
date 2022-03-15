@@ -7,6 +7,7 @@ class SimpleFilterStrategy(Strategy):
     """Filters out words that are no longer possible"""
 
     def feedback(self, guess, feedback):
+        super().feedback(guess, feedback)
         letter_found = dict.fromkeys(LIST_OF_LETTERS, 0)
         for i, feed in enumerate(feedback):
             # If letter is correct, eliminate all options

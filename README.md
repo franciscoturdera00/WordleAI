@@ -92,3 +92,20 @@ index_decision_all_5      Index Decision against a word bank with all 5 letter w
 </pre>
 
 Current Performance Information can be found [here](performance_analytics/analytics.json).
+
+# Manual Play
+This program also offers a way for you to play!
+
+### Usage: 
+<pre>
+manual_play.py [-h] [-a ATTEMPTS] [-wb WORD_BANK]
+</pre>
+
+Optional Arguments:
+<pre>
+-h, --help                             show this help message and exit
+
+-a ATTEMPTS, --attempts ATTEMPTS       Number of attempts the player receives
+
+-wb WORD_BANK, --wordbank WORD_BANK    Word Bank to be used for game
+</pre>
