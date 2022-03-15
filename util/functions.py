@@ -43,3 +43,7 @@ def quantity_ordered_list(integer_value_map):
         final_list.append((key, integer_value_map[key]))
     final_list.sort(key=lambda x: x[1], reverse=True)
     return final_list
+
+
+def flatten(list_of_lists):
+    return [item for sublist in list_of_lists for item in sublist]

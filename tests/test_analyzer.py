@@ -33,3 +33,7 @@ class Test(TestCase):
         two_in = [Feedback.NOT_IN_WORD, Feedback.IN_WORD, Feedback.IN_WORD,
                   Feedback.NOT_IN_WORD, Feedback.NOT_IN_WORD, Feedback.NOT_IN_WORD]
         self.assertEqual(two_in, analyze_guess("kppkpp", "pespta", [["kppkpp", "pespta"]]))
+
+    def testExceptions(self):
+        self.assertRaises(ValueError, analyze_guess, "word", "diff_length", [])
+        self.assertRaises(ValueError, analyze_guess, "words", "plane", [["plane"]])

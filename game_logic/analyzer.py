@@ -1,7 +1,6 @@
-from more_itertools import flatten
-
 from strategies.feedback import Feedback
 from util.constants import LIST_OF_LETTERS
+from util.functions import flatten
 
 
 def analyze_guess(guess, answer, wordbanks):
