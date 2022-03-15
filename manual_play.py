@@ -8,11 +8,21 @@ from util.functions import get_official_list, print_progress, get_word_list_from
 
 
 def play_game(path, args):
-    if args.word_bank is None:
-        word_bank = list(get_official_list(path))
-    else:
-        word_bank = list(get_word_list_from(args.word_bank))
+
+    word_bank = list(get_official_list(path))
+    if args.word_bank is not None:
+        try:
+            word_bank = list(get_word_list_from(args.word_bank))
+        except OSError as e:
+            exit(str(e))
+    secret_bank = set()
+    if args.secret_bank is not None:
+        try:
+            secret_bank = get_word_list_from(args.secret_bank)
+        except OSError as e:
+            exit(str(e))
     answer = random.choice(word_bank)
+    word_bank = set(word_bank)
     total_attempts = args.attempts
     attempts = args.attempts
     error_input = True
@@ -22,10 +32,13 @@ def play_game(path, args):
             try:
                 guess = input("Guess: ")
                 print()
-                feedback = analyze_guess(guess, answer, [word_bank])
-                print_progress(guess, feedback)
-                word_bank.remove(guess)
                 attempts -= 1
+                feedback = analyze_guess(guess, answer, word_bank, secret_bank)
+                if guess == answer:
+                    break
+                print_progress(guess, feedback)
+                word_bank.discard(guess)
+                secret_bank.discard(guess)
                 print("Attempts left: %d" % attempts)
                 error_input = False
             except ValueError as e:
@@ -33,7 +46,7 @@ def play_game(path, args):
         error_input = True
     if guess == answer:
         print()
-        print("Correct! You won in %d attempts!" % (total_attempts - attempts))
+        print("Correct! You won in %d attempt(s)!" % (total_attempts - attempts))
     else:
         print()
         print("You Lost :( The word was %s" % answer)
@@ -64,7 +77,5 @@ if __name__ == "__main__":
                 print()
                 exit("Thanks for playing!")
             else:
-                print("Please input 'y' ot 'n'")
+                print("Please input 'y' or 'n'")
                 continue
-
-

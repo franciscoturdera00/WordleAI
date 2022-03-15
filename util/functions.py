@@ -4,8 +4,11 @@ from strategies.feedback import Feedback
 
 
 def get_word_list_from(path):
-    with open(path) as f:
-        official_list = [x.replace("\n", "") for x in f.readlines()]
+    try:
+        with open(path) as f:
+            official_list = [x.replace("\n", "").lower() for x in f.readlines()]
+    except OSError:
+        raise OSError("Path %s does not exist" % path)
     return set(official_list)
 
 

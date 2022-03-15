@@ -1,5 +1,6 @@
 from config.arguments_parser import initiate_parser
 from game_logic.ai_play import play_ai
+from util.functions import get_word_list_from
 
 
 def ai_plays(args, words, secrets):
@@ -18,17 +19,16 @@ def ai_plays(args, words, secrets):
 
 if __name__ == '__main__':
     arguments = initiate_parser()
+    word_bank = set()
     try:
-        with open(arguments.word_bank) as f:
-            word_bank = set([x.replace("\n", "").lower() for x in f.readlines()])
+        word_bank = get_word_list_from(arguments.word_bank)
     except OSError:
         exit("Word Bank Path does not exist")
 
     secret_bank = set()
     if arguments.secret_bank is not None:
         try:
-            with open(arguments.secret_bank) as f:
-                secret_bank = set([x.replace("\n", "").lower() for x in f.readlines()])
+            secret_bank = get_word_list_from(arguments.secret_bank)
         except OSError:
             exit("Secret Bank Path does not exist")
 
