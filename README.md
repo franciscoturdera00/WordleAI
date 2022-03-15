@@ -46,9 +46,12 @@ There are various [word banks](word_banks/) available for user.
 Runs AI Strategy a large number of times and find the average number of 
 attempts it takes to find solution.
 
+Performance testing is *very slow*. Strategies are run under a high number 
+of iterations to ensure convergence.
+
 ### Usage
 <pre>
-performance.py [-h] [-s STRATEGY]
+performance.py [-h] [-s STRATEGY] [-u] [-p]
 </pre>
 
 Not adding any arguments will run all performance tests.
@@ -59,7 +62,9 @@ Not adding any arguments will run all performance tests.
   -s [STRATEGY [STRATEGY ...]], --strategy [STRATEGY [STRATEGY ...]]
                               Strategies to test performance for
 
-  -u, --update-analytics      Store analytics gathered. Default: False
+  -u, --update-analytics      Store analytics gathered
+
+  -p, --progress              Shows progress of testing for each strategy tested
 </pre>
 
 ### Performance Strategy Options:
