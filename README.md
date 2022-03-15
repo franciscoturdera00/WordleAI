@@ -50,7 +50,7 @@ index_decision    Chooses guess intelligently by finding frequency of letters at
 
 There are various [word banks](word_banks/) available for user.
 
-# Performance:
+# Performance
 
 Runs AI Strategy a large number of times and find the average number of 
 attempts it takes to find solution.
