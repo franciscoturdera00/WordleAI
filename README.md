@@ -3,7 +3,16 @@
 An AI that plays a Wordle-like game. Designed for variable-length words.
 
 ### Requirements:
-<pre>python3</pre>
+<pre>
+python3
+pip3
+tqdm
+</pre>
+
+#### Get tqdm:
+<pre>
+pip3 install tqdm
+</pre>
 
 ### Usage
 <pre>
