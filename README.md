@@ -97,6 +97,8 @@ index_decision_official   Index Decision against the official Wordle word list
 index_decision_all_5      Index Decision against a word bank with all 5 letter words
 
 outside_the_box_official  Think Outside The Box against the official Wordle word list and Official Guess List
+
+outside_the_box_large     Think Outside The Box against a simplified 5 letter words list and all 5 letters Guess List
 </pre>
 
 Current Performance Information can be found [here](performance_analytics/analytics.json).
