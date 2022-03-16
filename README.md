@@ -23,17 +23,17 @@ wordle_ai.py [-h] [-s STRATEGY] [-wb WORD_BANK] [-sb SECRET_BANK] -w WORD [-a AT
 <pre>
   -h, --help                                   show this help message and exit
 
-  -s STRATEGY, --strategy STRATEGY             Strategy used in the game. Default: smart_guess
+  -s STRATEGY, --strategy STRATEGY             strategy used in the game. Default: smart_guess
 
-  -wb WORD_BANK, --word-bank WORD_BANK         File Path for word bank to be used
+  -wb WORD_BANK, --word-bank WORD_BANK         file path for word bank to be used
 
-  -sb SECRET_BANK, --secret-bank SECRET_BANK   File Path for auxiliary allowed guesses
+  -sb SECRET_BANK, --secret-bank SECRET_BANK   file path for auxiliary allowed guesses
 
-  -w WORD, --word WORD                         Word to guess
+  -w WORD, --word WORD                         word to guess
 
-  -a ATTEMPTS, --attempts ATTEMPTS             Attempts the AI receives
+  -a ATTEMPTS, --attempts ATTEMPTS             attempts the AI receives
 
-  -p, --print                                  Print progress of AI as it makes guesses
+  -p, --print                                  print progress of AI as it makes guesses
 </pre>
 
 ### Strategies:
@@ -75,11 +75,11 @@ Not adding any arguments will run all performance tests.
   -h, --help                  show this help message and exit
 
   -s STRATEGY [STRATEGY ...], --strategy STRATEGY [STRATEGY ...]
-                              Strategies to test performance for
+                              strategies to test performance for
 
-  -u, --update-analytics      Store analytics gathered
+  -u, --update-analytics      store analytics gathered
 
-  -p, --progress              Shows progress of testing for each strategy tested
+  -p, --progress              shows progress of testing for each strategy tested
 </pre>
 
 ### Performance Strategy Options:
@@ -111,9 +111,11 @@ manual_play.py [-h] [-a ATTEMPTS] [-wb WORD_BANK]
 
 Optional Arguments:
 <pre>
--h, --help                             show this help message and exit
+-h, --help                                    show this help message and exit
 
--a ATTEMPTS, --attempts ATTEMPTS       Number of attempts the player receives
+-a ATTEMPTS, --attempts ATTEMPTS              number of attempts the player receives
 
--wb WORD_BANK, --wordbank WORD_BANK    Word Bank to be used for game
+-wb WORD_BANK, --word-bank WORD_BANK          file path for Word Bank to be used for game
+
+-sb SECRET_BANK, --secret-bank SECRET_BANK    file path for auxiliary allowed guesses
 </pre>
