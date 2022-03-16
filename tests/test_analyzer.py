@@ -16,7 +16,7 @@ class Test(TestCase):
         """If failing, probably checking multiple letters wrong"""
         hello_expected = [Feedback.NOT_IN_WORD, Feedback.NOT_IN_WORD, Feedback.NOT_IN_WORD,
                           Feedback.CORRECT, Feedback.IN_WORD]
-        self.assertEqual(hello_expected, analyze_guess("hello", "world", ["hello", "world"]))
+        self.assertEqual(hello_expected, analyze_guess("hello", "p", ["hello", "world"]))
 
         dared_expected = [Feedback.IN_WORD, Feedback.NOT_IN_WORD, Feedback.CORRECT,
                           Feedback.NOT_IN_WORD, Feedback.NOT_IN_WORD]
