@@ -1,5 +1,6 @@
 from game_logic.analyzer import analyze_guess
 from strategies.index_decision import IndexDecisionStrategy
+from strategies.outside_the_box import ThinkOutsideTheBoxStrategy
 from strategies.random_strategy import RandomStrategy
 from strategies.simple_filter import SimpleFilterStrategy
 from strategies.smart_guess import SmartGuessStrategy
@@ -37,5 +38,7 @@ def choose_strategy(strategy, word_bank, secret_bank, answer_length, attempts):
         return SmartGuessStrategy(word_bank, secret_bank, answer_length, attempts)
     if strategy == "index_decision":
         return IndexDecisionStrategy(word_bank, secret_bank, answer_length, attempts)
+    if strategy == "outside_the_box":
+        return ThinkOutsideTheBoxStrategy(word_bank, secret_bank, answer_length, attempts)
     else:
         exit("Not a valid strategy")

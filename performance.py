@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 from config.performance_parser import performance_parser
 from game_logic.ai_play import play_ai
-from util.functions import get_official_list, generate_word_from, get_all_5_letter_words
+from util.functions import get_official_list, generate_word_from, get_all_5_letter_words, get_official_guess_list
 
 PERFORMANCE_MARKER = 2000
 current_path = str(Path(os.getcwd()))
@@ -19,6 +19,7 @@ class Strats(Enum):
     SMART_GUESS_ALL_5 = 'smart_guess_all_5'
     INDEX_DECISION_OFFICIAL = 'index_decision_official'
     INDEX_DECISION_ALL_5 = 'index_decision_all_5'
+    OUTSIDE_THE_BOX_OFFICIAL = "outside_the_box_official"
 
 
 def identity_or_progress(progress, fn):
@@ -65,6 +66,12 @@ def test_index_decision_with_all_5_letter_words(print_mode):
     return test_performance("index_decision", lst, set(), PERFORMANCE_MARKER, print_mode)
 
 
+def test_out_the_box_with_official_wordle_list(print_mode):
+    official_list = get_official_list(current_path)
+    secret_list = get_official_guess_list(current_path)
+    return test_performance("outside_the_box", official_list, secret_list, PERFORMANCE_MARKER, print_mode)
+
+
 def display_performance(strategy, lst, average):
     print(strategy + " with " + lst + " Average Number of Attempts: " + str(average))
 
@@ -99,6 +106,11 @@ def run_all(print_mode):
     if args.update_analytics:
         update_performance_analytics(averages, Strats.INDEX_DECISION_ALL_5.value, value)
     display_performance("Index Decision", "all 5 letter word list", value)
+
+    value = test_out_the_box_with_official_wordle_list(print_mode)
+    if args.update_analytics:
+        update_performance_analytics(averages, Strats.OUTSIDE_THE_BOX_OFFICIAL.value, value)
+    display_performance("Think Outside The Box", "Official Wordle List with Official Guess List", value)
 
 
 def update_performance_analytics(jsn, strategy, updated_value):
@@ -152,6 +164,11 @@ if __name__ == '__main__':
                 update_performance_analytics(averages, Strats.INDEX_DECISION_ALL_5.value, new_value)
             display_performance("Index Decision", "all 5 letter word list", new_value)
             not_valid = False
+        if Strats.OUTSIDE_THE_BOX_OFFICIAL.value in args.strategy:
+            new_value = test_out_the_box_with_official_wordle_list(args.show_progress)
+            if args.update_analytics:
+                update_performance_analytics(averages, Strats.OUTSIDE_THE_BOX_OFFICIAL.value, new_value)
+            display_performance("Think Outside The Box", "Official Wordle List with Official Guess List", new_value)
         if not_valid:
             exit("Not a valid request")
 

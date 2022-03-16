@@ -20,6 +20,8 @@ class SmartGuessStrategy(SimpleFilterStrategy):
         standard = ordered_list[0][1]
         filtered = list(filter(lambda x: x[1] == standard, ordered_list))
         guess = random.choice(filtered)[0]
+        self.possible_answers.discard(guess)
+        self.secret_bank.discard(guess)
         return guess
 
     @staticmethod
