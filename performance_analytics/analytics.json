@@ -1,8 +1,10 @@
 {
-    "simple_filter_official": 4.079039519759883,
+    "simple_filter_official": 4.090545272636327,
     "simple_filter_all_5": 5.148574287143577,
-    "smart_guess_official": 3.6898449224612304,
+    "smart_guess_official": 3.712356178089044,
     "smart_guess_all_5": 4.844422211105557,
-    "index_decision_official": 3.6453226613306655,
-    "index_decision_all_5": 4.843421710855427
+    "index_decision_official": 3.6683341670835428,
+    "index_decision_all_5": 4.843421710855427,
+    "outside_the_box_official": 3.6763381690845423,
+    "outside_the_box_large": 4.273636818409209
 }

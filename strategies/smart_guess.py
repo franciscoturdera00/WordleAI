@@ -3,7 +3,7 @@ from collections import Counter
 
 from strategies.simple_filter import SimpleFilterStrategy
 from util.constants import LIST_OF_LETTERS
-from util.functions import quantity_ordered_list
+from util.functions import quantity_ordered_list, generate_word_from
 
 
 class SmartGuessStrategy(SimpleFilterStrategy):
@@ -19,7 +19,9 @@ class SmartGuessStrategy(SimpleFilterStrategy):
         ordered_list = quantity_ordered_list(weights)
         standard = ordered_list[0][1]
         filtered = list(filter(lambda x: x[1] == standard, ordered_list))
-        guess = random.choice(filtered)[0]
+        guess = generate_word_from(filtered)[0]
+        self.possible_answers.discard(guess)
+        self.secret_bank.discard(guess)
         return guess
 
     @staticmethod
