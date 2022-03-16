@@ -7,7 +7,7 @@ from tqdm import tqdm
 from config.performance_parser import performance_parser
 from game_logic.ai_play import play_ai
 from util.functions import get_official_list, generate_word_from, get_all_5_letter_words, get_official_guess_list, \
-    get_simplified_5_list
+    get_simplified_5_list, remove_0s, quantity_ordered_list
 
 PERFORMANCE_MARKER = 2000
 current_path = str(Path(os.getcwd()))
@@ -31,11 +31,16 @@ def identity_or_progress(progress, fn):
 
 
 def test_performance(strategy, word_bank, secret_bank, performance_marker, print_mode):
-    _, average = play_ai(strategy, word_bank.copy(), secret_bank, generate_word_from(word_bank.copy()), 6000)
-    for i in identity_or_progress(print_mode, range(2, performance_marker)):
-        _, num = play_ai(strategy, word_bank.copy(), secret_bank, generate_word_from(word_bank.copy()), 6000)
+    average = 0
+    frequency = dict.fromkeys(range(1, 100), 0)
+    for i in identity_or_progress(print_mode, range(1, performance_marker)):
+        _, num = play_ai(strategy, word_bank.copy(), secret_bank.copy(), generate_word_from(word_bank.copy()), 6000)
         average = ((i - 1) * average + num) / i
-    return average
+        frequency[num] += 1
+    frequency = remove_0s(frequency)
+    ordered = quantity_ordered_list(frequency)
+    mean = ordered[0][0]
+    return average, mean, frequency
 
 
 def test_simple_filter_performance_with_official_wordle_list(print_mode):
@@ -80,119 +85,134 @@ def test_out_the_box_with_simplified_5_list(print_mode):
     return test_performance("outside_the_box", simplified_5, secret_list, PERFORMANCE_MARKER, print_mode)
 
 
-def display_performance(strategy, lst, average):
-    print(strategy + " with " + lst + " Average Number of Attempts: " + str(average))
+def display_performance(strategy, lst, dt):
+    print(strategy + " with " + lst)
+    print("Average Number of Attempts: " + str(dt[0]))
+    print("Mean Number of Attempts: " + str(dt[1]))
+    print("Break Down: " + str(dt[2]))
 
 
-def run_all(print_mode):
-    value = test_simple_filter_performance_with_official_wordle_list(print_mode)
+def run_all(print_mode, d):
+    handle_simple_filter_official(print_mode, d)
+    handle_simple_filter_all_5(print_mode, d)
+    handle_smart_guess_official(print_mode, d)
+    handle_smart_guess_all_5(print_mode, d)
+    handle_index_decision_official(print_mode, d)
+    handle_index_decision_all_5(print_mode, d)
+    handle_outside_the_box_official(print_mode, d)
+    handle_outside_the_box_large(print_mode, d)
+
+
+def handle_simple_filter_official(print_mode, data):
+    new_value = test_simple_filter_performance_with_official_wordle_list(print_mode)
     if args.update_analytics:
-        update_performance_analytics(averages, Strats.SIMPLE_FILTER_OFFICIAL.value, value)
-    display_performance("Simple Filter", "Official Wordle List", value)
+        update_performance_analytics(data, Strats.SIMPLE_FILTER_OFFICIAL.value, new_value)
+    display_performance("Simple Filter", "Official Wordle List", new_value)
 
-    value = test_simple_filter_performance_with_all_5_letter_words(print_mode)
-    if args.update_analytics:
-        update_performance_analytics(averages, Strats.SIMPLE_FILTER_ALL_5.value, value)
-    display_performance("Simple Filter", "all 5 letter word list", value)
 
-    value = test_smart_guess_with_official_wordle_list(print_mode)
+def handle_simple_filter_all_5(print_mode, data):
+    new_value = test_simple_filter_performance_with_all_5_letter_words(print_mode)
     if args.update_analytics:
-        update_performance_analytics(averages, Strats.SMART_GUESS_OFFICIAL.value, value)
-    display_performance("Smart Guess", "Official Wordle List", value)
+        update_performance_analytics(data, Strats.SIMPLE_FILTER_ALL_5.value, new_value)
+    display_performance("Simple Filter", "all 5 letter word list", new_value)
 
-    value = test_smart_guess_with_all_5_letter_words(print_mode)
-    if args.update_analytics:
-        update_performance_analytics(averages, Strats.SMART_GUESS_ALL_5.value, value)
-    display_performance("Smart Guess", "all 5 letter word list", value)
 
-    value = test_index_decision_with_official_wordle_list(print_mode)
+def handle_smart_guess_official(print_mode, data):
+    new_value = test_smart_guess_with_official_wordle_list(print_mode)
     if args.update_analytics:
-        update_performance_analytics(averages, Strats.INDEX_DECISION_OFFICIAL.value, value)
-    display_performance("Index Decision", "Official Wordle List", value)
+        update_performance_analytics(data, Strats.SMART_GUESS_OFFICIAL.value, new_value)
+    display_performance("Smart Guess", "Official Wordle List", new_value)
 
-    value = test_index_decision_with_all_5_letter_words(print_mode)
-    if args.update_analytics:
-        update_performance_analytics(averages, Strats.INDEX_DECISION_ALL_5.value, value)
-    display_performance("Index Decision", "all 5 letter word list", value)
 
-    value = test_out_the_box_with_official_wordle_list(print_mode)
+def handle_smart_guess_all_5(print_mode, data):
+    new_value = test_smart_guess_with_all_5_letter_words(print_mode)
     if args.update_analytics:
-        update_performance_analytics(averages, Strats.OUTSIDE_THE_BOX_OFFICIAL.value, value)
-    display_performance("Think Outside The Box", "Official Wordle List with Official Guess List", value)
+        update_performance_analytics(data, Strats.SMART_GUESS_ALL_5.value, new_value)
+    display_performance("Smart Guess", "all 5 letter word list", new_value)
 
-    value = test_out_the_box_with_simplified_5_list(print_mode)
+
+def handle_index_decision_official(print_mode, data):
+    new_value = test_index_decision_with_official_wordle_list(print_mode)
     if args.update_analytics:
-        update_performance_analytics(averages, Strats.OUTSIDE_THE_BOX_LARGE.value, value)
-    display_performance("Think Outside The Box", "Large 5-Letter List with all 5 letters Guess List", value)
+        update_performance_analytics(data, Strats.INDEX_DECISION_OFFICIAL.value, new_value)
+    display_performance("Index Decision", "Official Wordle List", new_value)
+
+
+def handle_index_decision_all_5(print_mode, data):
+    new_value = test_index_decision_with_all_5_letter_words(print_mode)
+    if args.update_analytics:
+        update_performance_analytics(data, Strats.INDEX_DECISION_ALL_5.value, new_value)
+    display_performance("Index Decision", "all 5 letter word list", new_value)
+
+
+def handle_outside_the_box_official(print_mode, data):
+    new_value = test_out_the_box_with_official_wordle_list(print_mode)
+    if args.update_analytics:
+        update_performance_analytics(data, Strats.OUTSIDE_THE_BOX_OFFICIAL.value, new_value)
+    display_performance("Think Outside The Box", "Official Wordle List with Official Guess List", new_value)
+
+
+def handle_outside_the_box_large(print_mode, data):
+    new_value = test_out_the_box_with_simplified_5_list(print_mode)
+    if args.update_analytics:
+        update_performance_analytics(data, Strats.OUTSIDE_THE_BOX_LARGE.value, new_value)
+    display_performance("Think Outside The Box", "Large 5-Letter List with all 5 letters Guess List", new_value)
 
 
 def update_performance_analytics(jsn, strategy, updated_value):
-    jsn[strategy] = updated_value
+    jsn['Performance'][strategy]['average'] = updated_value[0]
+    jsn['Performance'][strategy]['mean'] = updated_value[1]
+    jsn['Performance'][strategy]['break_down'] = updated_value[2]
 
 
 if __name__ == '__main__':
     args = performance_parser()
     not_valid = True
     analytics_file = 'performance_analytics/analytics.json'
+    db = None
     if args.update_analytics:
         with open(analytics_file) as json_file:
-            averages = json.load(json_file)
+            db = json.load(json_file)
     print("Testing Performance")
     if args.strategy is None or not args.strategy:
-        run_all(args.show_progress)
+        run_all(args.show_progress, db)
     else:
         if Strats.SIMPLE_FILTER_OFFICIAL.value in args.strategy:
-            new_value = test_simple_filter_performance_with_official_wordle_list(args.show_progress)
-            if args.update_analytics:
-                update_performance_analytics(averages, Strats.SIMPLE_FILTER_OFFICIAL.value, new_value)
-            display_performance("Simple Filter", "Official Wordle List", new_value)
+            handle_simple_filter_official(args.show_progress, db)
             not_valid = False
+
         if Strats.SIMPLE_FILTER_ALL_5.value in args.strategy:
-            new_value = test_simple_filter_performance_with_all_5_letter_words(args.show_progress)
-            if args.update_analytics:
-                update_performance_analytics(averages, Strats.SIMPLE_FILTER_ALL_5.value, new_value)
-            display_performance("Simple Filter", "all 5 letter word list", new_value)
+            handle_simple_filter_all_5(args.show_progress, db)
             not_valid = False
+
         if Strats.SMART_GUESS_OFFICIAL.value in args.strategy:
-            new_value = test_smart_guess_with_official_wordle_list(args.show_progress)
-            if args.update_analytics:
-                update_performance_analytics(averages, Strats.SMART_GUESS_OFFICIAL.value, new_value)
-            display_performance("Smart Guess", "Official Wordle List", new_value)
+            handle_smart_guess_official(args.show_progress, db)
             not_valid = False
+
         if Strats.SMART_GUESS_ALL_5.value in args.strategy:
-            new_value = test_smart_guess_with_all_5_letter_words(args.show_progress)
-            if args.update_analytics:
-                update_performance_analytics(averages, Strats.SMART_GUESS_ALL_5.value, new_value)
-            display_performance("Smart Guess", "all 5 letter word list", new_value)
+            handle_smart_guess_all_5(args.show_progress, db)
             not_valid = False
+
         if Strats.INDEX_DECISION_OFFICIAL.value in args.strategy:
-            new_value = test_index_decision_with_official_wordle_list(args.show_progress)
-            if args.update_analytics:
-                update_performance_analytics(averages, Strats.INDEX_DECISION_OFFICIAL.value, new_value)
-            display_performance("Index Decision", "Official Wordle List", new_value)
+            handle_index_decision_official(args.show_progress, db)
             not_valid = False
+
         if Strats.INDEX_DECISION_ALL_5.value in args.strategy:
-            new_value = test_index_decision_with_all_5_letter_words(args.show_progress)
-            if args.update_analytics:
-                update_performance_analytics(averages, Strats.INDEX_DECISION_ALL_5.value, new_value)
-            display_performance("Index Decision", "all 5 letter word list", new_value)
+            handle_index_decision_all_5(args.show_progress, db)
             not_valid = False
+
         if Strats.OUTSIDE_THE_BOX_OFFICIAL.value in args.strategy:
-            new_value = test_out_the_box_with_official_wordle_list(args.show_progress)
-            if args.update_analytics:
-                update_performance_analytics(averages, Strats.OUTSIDE_THE_BOX_OFFICIAL.value, new_value)
-            display_performance("Think Outside The Box", "Official Wordle List with Official Guess List", new_value)
+            handle_outside_the_box_official(args.show_progress, db)
             not_valid = False
+
         if Strats.OUTSIDE_THE_BOX_LARGE.value in args.strategy:
-            new_value = test_out_the_box_with_simplified_5_list(args.show_progress)
-            if args.update_analytics:
-                update_performance_analytics(averages, Strats.OUTSIDE_THE_BOX_LARGE.value, new_value)
-            display_performance("Think Outside The Box", "Large 5-Letter List with all 5 letters Guess List", new_value)
+            handle_outside_the_box_large(args.show_progress, db)
             not_valid = False
+
         if not_valid:
             exit("Not a valid request")
 
     # Writes updated json to file
     if args.update_analytics:
         with open(analytics_file, 'w') as f:
-            json.dump(averages, f, indent=4)
+            json.dump(db, f, indent=4)

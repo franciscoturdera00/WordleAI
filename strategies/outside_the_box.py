@@ -20,9 +20,8 @@ class ThinkOutsideTheBoxStrategy(IndexDecisionStrategy):
         ordered_letters = self.letter_quantity(self.possible_answers, self.length_of_word)
         weights_bank = self.create_weights(ordered_letters, self.possible_answers)
         ordered_list = quantity_ordered_list(weights_bank, "regular")
-        probability = 1 - ((self.total_attempts - (self.attempts_left / self.CHANCE_CONSTANT))
-                           / (self.total_attempts * 1.0))
-        if flip_weighted_coin(probability) and len(self.possible_answers) > 1:
+        probability = (self.attempts_left / self.CHANCE_CONSTANT) / self.total_attempts * 1.0
+        if flip_weighted_coin(probability):
             weights_secret = self.create_weights(ordered_letters, self.secret_bank)
             ordered_list += quantity_ordered_list(weights_secret, "secret")
             ordered_list.sort(key=lambda x: x[1], reverse=True)

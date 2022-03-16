@@ -37,4 +37,4 @@ class Test(TestCase):
         for i in range(100):
             lst = self.official_list.copy()
             secret = get_official_guess_list(self.parent_path)
-            play_ai("index_decision", lst, secret, generate_word_from(lst), 10)
+            play_ai("outside_the_box", lst, secret, generate_word_from(lst), 10)

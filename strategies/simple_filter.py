@@ -22,17 +22,16 @@ class SimpleFilterStrategy(Strategy):
                 static_words = bank.copy()
                 for word in static_words:
                     if word[i] != guess[i]:
-                        bank.discard(word)
+                        bank.remove(word)
             if feed == Feedback.IN_WORD:
                 letter_found[guess[i]] += 1
 
-        # Eliminate all options that have less repeating letters than found
-        static_words = bank.copy()
-        for word in static_words:
-            freq = Counter(word)
-            for f in freq:
-                if letter_found[f] > freq[f]:
-                    bank.discard(word)
+        for ch in letter_found:
+            static_words = bank.copy()
+            for word in static_words:
+                # Eliminate all options that have less repeating letters than found
+                if letter_found[ch] > word.count(ch):
+                    bank.remove(word)
 
         for i, feed in enumerate(feedback):
             letter = guess[i]
@@ -42,12 +41,12 @@ class SimpleFilterStrategy(Strategy):
                 static_words = bank.copy()
                 for word in static_words:
                     if word.count(letter) > valid_times:
-                        bank.discard(word)
+                        bank.remove(word)
             if feed == Feedback.IN_WORD:
                 # Since letter is definitely not in this spot,
                 # eliminate all options that contains this letter in this spot
                 static_words = bank.copy()
                 for word in static_words:
                     if word[i] == letter:
-                        bank.discard(word)
+                        bank.remove(word)
 
