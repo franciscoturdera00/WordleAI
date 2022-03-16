@@ -27,42 +27,42 @@ def identity_or_progress(progress, fn):
     return fn
 
 
-def test_performance(strategy, word_bank, performance_marker, print_mode):
-    _, average = play_ai(strategy, word_bank.copy(), generate_word_from(word_bank.copy()), 6000)
+def test_performance(strategy, word_bank, secret_bank, performance_marker, print_mode):
+    _, average = play_ai(strategy, word_bank.copy(), secret_bank, generate_word_from(word_bank.copy()), 6000)
     for i in identity_or_progress(print_mode, range(2, performance_marker)):
-        _, num = play_ai(strategy, word_bank.copy(), generate_word_from(word_bank.copy()), 6000)
+        _, num = play_ai(strategy, word_bank.copy(), secret_bank, generate_word_from(word_bank.copy()), 6000)
         average = ((i - 1) * average + num) / i
     return average
 
 
 def test_simple_filter_performance_with_official_wordle_list(print_mode):
     official_list = get_official_list(current_path)
-    return test_performance("simple_filter", official_list, PERFORMANCE_MARKER, print_mode)
+    return test_performance("simple_filter", official_list, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_simple_filter_performance_with_all_5_letter_words(print_mode):
     lst = get_all_5_letter_words(current_path)
-    return test_performance("simple_filter", lst, PERFORMANCE_MARKER, print_mode)
+    return test_performance("simple_filter", lst, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_smart_guess_with_official_wordle_list(print_mode):
     official_list = get_official_list(current_path)
-    return test_performance("smart_guess", official_list, PERFORMANCE_MARKER, print_mode)
+    return test_performance("smart_guess", official_list, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_smart_guess_with_all_5_letter_words(print_mode):
     lst = get_all_5_letter_words(current_path)
-    return test_performance("smart_guess", lst, PERFORMANCE_MARKER, print_mode)
+    return test_performance("smart_guess", lst, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_index_decision_with_official_wordle_list(print_mode):
     official_list = get_official_list(current_path)
-    return test_performance("index_decision", official_list, PERFORMANCE_MARKER, print_mode)
+    return test_performance("index_decision", official_list, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_index_decision_with_all_5_letter_words(print_mode):
     lst = get_all_5_letter_words(current_path)
-    return test_performance("index_decision", lst, PERFORMANCE_MARKER, print_mode)
+    return test_performance("index_decision", lst, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def display_performance(strategy, lst, average):

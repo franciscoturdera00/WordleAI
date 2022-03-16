@@ -47,3 +47,7 @@ def quantity_ordered_list(integer_value_map):
 
 def flatten(list_of_lists):
     return [item for sublist in list_of_lists for item in sublist]
+
+
+def remove_0s(original):
+    return {ch: freq for ch, freq in original.items() if freq != 0}

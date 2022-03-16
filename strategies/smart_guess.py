@@ -15,7 +15,7 @@ class SmartGuessStrategy(SimpleFilterStrategy):
 
     def guess(self):
         ordered_letters = self.letter_quantity(self.possible_answers, self.length_of_word)
-        weights = self.create_weights(self.possible_answers, ordered_letters)
+        weights = self.create_weights(ordered_letters, self.possible_answers)
         ordered_list = quantity_ordered_list(weights)
         standard = ordered_list[0][1]
         filtered = list(filter(lambda x: x[1] == standard, ordered_list))
@@ -23,7 +23,7 @@ class SmartGuessStrategy(SimpleFilterStrategy):
         return guess
 
     @staticmethod
-    def create_weights(words, ordered_letters):
+    def create_weights(ordered_letters, words):
         weights = dict.fromkeys(words, 0)
         for w in words:
             freq = Counter(w)

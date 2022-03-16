@@ -11,7 +11,7 @@ class IndexDecisionStrategy(SmartGuessStrategy):
     """
 
     @staticmethod
-    def create_weights(words, ordered_letters):
+    def create_weights(ordered_letters, words):
         weights = dict.fromkeys(words, 0)
         for w in words:
             freq = Counter(w)
@@ -21,7 +21,9 @@ class IndexDecisionStrategy(SmartGuessStrategy):
 
     @staticmethod
     def letter_quantity(bank, word_length):
-        letters = [dict.fromkeys(LIST_OF_LETTERS, 0)] * word_length
+        letters = []
+        for _ in range(word_length):
+            letters.append(dict.fromkeys(LIST_OF_LETTERS, 0))
         for word in bank:
             for i, ch in enumerate(word):
                 letters[i][ch] += 1
