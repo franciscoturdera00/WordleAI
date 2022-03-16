@@ -1,6 +1,6 @@
 # WordleAI
 
-An AI that plays a [Wordle](https://www.nytimes.com/games/wordle/index.html)-like game. Designed for variable-length words.
+An AI that plays a <a href="https://www.nytimes.com/games/wordle/index.html" target="_blank">Wordle</a>-like game. Designed for variable-length words.
 
 ### Requirements:
 <pre>
