@@ -17,7 +17,7 @@ class Test(TestCase):
         for i in range(100):
             try:
                 lst = self.official_list.copy()
-                play_ai("random", lst, generate_word_from(lst), 10)
+                play_ai("random", lst, set(), generate_word_from(lst), 10)
             except RuntimeError:
                 print("RandomStrategy failed in %d run: " % i, RuntimeError)
 
@@ -25,7 +25,7 @@ class Test(TestCase):
         for i in range(100):
             try:
                 lst = self.official_list.copy()
-                play_ai("simple_filter", lst, generate_word_from(lst), 10)
+                play_ai("simple_filter", lst, set(), generate_word_from(lst), 10)
             except RuntimeError:
                 print("SimpleFilterStrategy failed in %d run: " % i, RuntimeError)
 
@@ -33,7 +33,7 @@ class Test(TestCase):
         for i in range(100):
             try:
                 lst = self.official_list.copy()
-                play_ai("smart_guess", lst, generate_word_from(lst), 10)
+                play_ai("smart_guess", lst, set(), generate_word_from(lst), 10)
             except RuntimeError:
                 print("SmartGuessStrategy failed in %d run: " % i, RuntimeError)
 
@@ -41,6 +41,6 @@ class Test(TestCase):
         for i in range(100):
             try:
                 lst = self.official_list.copy()
-                play_ai("index_decision", lst, generate_word_from(lst), 10)
+                play_ai("index_decision", lst, set(), generate_word_from(lst), 10)
             except RuntimeError:
                 print("IndexDecisionStrategy failed in %d run: " % i, RuntimeError)
