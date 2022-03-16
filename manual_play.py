@@ -4,7 +4,8 @@ from pathlib import Path
 
 from config.manual_play_parser import manual_parser
 from game_logic.analyzer import analyze_guess
-from util.functions import get_official_list, print_progress, get_word_list_from, generate_word_from
+from util.functions import get_official_list, print_progress, get_word_list_from, generate_word_from, \
+    get_official_guess_list
 
 
 def play_game(path, args):
@@ -12,7 +13,12 @@ def play_game(path, args):
         word_bank = list(get_official_list(path))
     else:
         word_bank = list(get_word_list_from(args.word_bank))
+    if args.secret_bank is None:
+        secret_bank = set(get_official_guess_list(path))
+    else:
+        secret_bank = get_word_list_from(args.secret_bank)
     answer = generate_word_from(word_bank)
+    word_bank = set(word_bank)
     total_attempts = args.attempts
     attempts = args.attempts
     error_input = True
@@ -22,9 +28,10 @@ def play_game(path, args):
             try:
                 guess = input("Guess: ")
                 print()
-                feedback = analyze_guess(guess, answer, [word_bank])
+                feedback = analyze_guess(guess, answer, word_bank, secret_bank)
                 print_progress(guess, feedback)
-                word_bank.remove(guess)
+                word_bank.discard(guess)
+                secret_bank.discard(guess)
                 attempts -= 1
                 print("Attempts left: %d" % attempts)
                 error_input = False
