@@ -49,7 +49,9 @@ index_decision    Chooses guess intelligently by finding frequency of letters at
                   the word to eliminate as many options as possible and reduces sample size
                   given the feedback from guess
 
-outside_the_box   Description In Progress
+outside_the_box   Works just like index_decision, but also takes advantage of the secret bank
+                  and uses an explore/exploit approach to choose words from the word bank
+                  or a larger pool (secret bank) to eliminate more possible answers
 </pre>
 
 There are various [word banks](word_banks/) available for user.

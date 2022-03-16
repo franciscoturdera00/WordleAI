@@ -3,7 +3,7 @@ from pathlib import Path
 from unittest import TestCase
 
 from game_logic.ai_play import play_ai
-from util.functions import get_official_list, generate_word_from
+from util.functions import get_official_list, generate_word_from, get_official_guess_list
 
 
 class Test(TestCase):
@@ -15,32 +15,26 @@ class Test(TestCase):
 
     def test_random_strategy(self):
         for i in range(100):
-            try:
-                lst = self.official_list.copy()
-                play_ai("random", lst, set(), generate_word_from(lst), 10)
-            except RuntimeError:
-                print("RandomStrategy failed in %d run: " % i, RuntimeError)
+            lst = self.official_list.copy()
+            play_ai("random", lst, set(), generate_word_from(lst), 10)
 
     def test_simple_filter_strategy(self):
         for i in range(100):
-            try:
-                lst = self.official_list.copy()
-                play_ai("simple_filter", lst, set(), generate_word_from(lst), 10)
-            except RuntimeError:
-                print("SimpleFilterStrategy failed in %d run: " % i, RuntimeError)
+            lst = self.official_list.copy()
+            play_ai("simple_filter", lst, set(), generate_word_from(lst), 10)
 
     def test_smart_guess_strategy(self):
         for i in range(100):
-            try:
-                lst = self.official_list.copy()
-                play_ai("smart_guess", lst, set(), generate_word_from(lst), 10)
-            except RuntimeError:
-                print("SmartGuessStrategy failed in %d run: " % i, RuntimeError)
+            lst = self.official_list.copy()
+            play_ai("smart_guess", lst, set(), generate_word_from(lst), 10)
 
     def test_index_decision_strategy(self):
         for i in range(100):
-            try:
-                lst = self.official_list.copy()
-                play_ai("index_decision", lst, set(), generate_word_from(lst), 10)
-            except RuntimeError:
-                print("IndexDecisionStrategy failed in %d run: " % i, RuntimeError)
+            lst = self.official_list.copy()
+            play_ai("index_decision", lst, set(), generate_word_from(lst), 10)
+
+    def test_outside_the_box_strategy(self):
+        for i in range(100):
+            lst = self.official_list.copy()
+            secret = get_official_guess_list(self.parent_path)
+            play_ai("index_decision", lst, secret, generate_word_from(lst), 10)

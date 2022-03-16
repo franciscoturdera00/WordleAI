@@ -6,7 +6,8 @@ from tqdm import tqdm
 
 from config.performance_parser import performance_parser
 from game_logic.ai_play import play_ai
-from util.functions import get_official_list, generate_word_from, get_all_5_letter_words, get_official_guess_list
+from util.functions import get_official_list, generate_word_from, get_all_5_letter_words, get_official_guess_list, \
+    get_simplified_5_list
 
 PERFORMANCE_MARKER = 2000
 current_path = str(Path(os.getcwd()))
@@ -20,6 +21,7 @@ class Strats(Enum):
     INDEX_DECISION_OFFICIAL = 'index_decision_official'
     INDEX_DECISION_ALL_5 = 'index_decision_all_5'
     OUTSIDE_THE_BOX_OFFICIAL = "outside_the_box_official"
+    OUTSIDE_THE_BOX_LARGE = "outside_the_box_large"
 
 
 def identity_or_progress(progress, fn):
@@ -62,7 +64,7 @@ def test_index_decision_with_official_wordle_list(print_mode):
 
 
 def test_index_decision_with_all_5_letter_words(print_mode):
-    lst = get_all_5_letter_words(current_path)
+    lst = get_simplified_5_list(current_path)
     return test_performance("index_decision", lst, set(), PERFORMANCE_MARKER, print_mode)
 
 
@@ -70,6 +72,12 @@ def test_out_the_box_with_official_wordle_list(print_mode):
     official_list = get_official_list(current_path)
     secret_list = get_official_guess_list(current_path)
     return test_performance("outside_the_box", official_list, secret_list, PERFORMANCE_MARKER, print_mode)
+
+
+def test_out_the_box_with_simplified_5_list(print_mode):
+    simplified_5 = get_simplified_5_list(current_path)
+    secret_list = get_all_5_letter_words(current_path)
+    return test_performance("outside_the_box", simplified_5, secret_list, PERFORMANCE_MARKER, print_mode)
 
 
 def display_performance(strategy, lst, average):
@@ -112,6 +120,11 @@ def run_all(print_mode):
         update_performance_analytics(averages, Strats.OUTSIDE_THE_BOX_OFFICIAL.value, value)
     display_performance("Think Outside The Box", "Official Wordle List with Official Guess List", value)
 
+    value = test_out_the_box_with_simplified_5_list(print_mode)
+    if args.update_analytics:
+        update_performance_analytics(averages, Strats.OUTSIDE_THE_BOX_LARGE.value, value)
+    display_performance("Think Outside The Box", "Large 5-Letter List with all 5 letters Guess List", value)
+
 
 def update_performance_analytics(jsn, strategy, updated_value):
     jsn[strategy] = updated_value
@@ -132,7 +145,7 @@ if __name__ == '__main__':
             new_value = test_simple_filter_performance_with_official_wordle_list(args.show_progress)
             if args.update_analytics:
                 update_performance_analytics(averages, Strats.SIMPLE_FILTER_OFFICIAL.value, new_value)
-            display_performance("Simple Filter", "Official Wordle_List", new_value)
+            display_performance("Simple Filter", "Official Wordle List", new_value)
             not_valid = False
         if Strats.SIMPLE_FILTER_ALL_5.value in args.strategy:
             new_value = test_simple_filter_performance_with_all_5_letter_words(args.show_progress)
@@ -169,6 +182,13 @@ if __name__ == '__main__':
             if args.update_analytics:
                 update_performance_analytics(averages, Strats.OUTSIDE_THE_BOX_OFFICIAL.value, new_value)
             display_performance("Think Outside The Box", "Official Wordle List with Official Guess List", new_value)
+            not_valid = False
+        if Strats.OUTSIDE_THE_BOX_LARGE.value in args.strategy:
+            new_value = test_out_the_box_with_simplified_5_list(args.show_progress)
+            if args.update_analytics:
+                update_performance_analytics(averages, Strats.OUTSIDE_THE_BOX_LARGE.value, new_value)
+            display_performance("Think Outside The Box", "Large 5-Letter List with all 5 letters Guess List", new_value)
+            not_valid = False
         if not_valid:
             exit("Not a valid request")
 

@@ -1,7 +1,7 @@
 import random
 
 from strategies.index_decision import IndexDecisionStrategy
-from util.functions import quantity_ordered_list, flip_weighted_coin
+from util.functions import quantity_ordered_list, flip_weighted_coin, generate_word_from
 
 
 class ThinkOutsideTheBoxStrategy(IndexDecisionStrategy):
@@ -12,24 +12,25 @@ class ThinkOutsideTheBoxStrategy(IndexDecisionStrategy):
         self.attempts_left = attempts
         self.CHANCE_CONSTANT = 1.0
 
+    # TODO: Compare Weights as well, decide based on it
     def guess(self):
         ordered_letters = self.letter_quantity(self.possible_answers, self.length_of_word)
-        chance = (self.total_attempts -
-                  (self.attempts_left * (len(self.possible_answers) / self.initial_word_bank_length)
-                   / self.CHANCE_CONSTANT)) / (self.total_attempts * 1.0)
-        if (not flip_weighted_coin(chance) or self.total_attempts == self.attempts_left) \
-                and len(self.possible_answers) != 1:
+        weights_bank = self.create_weights(ordered_letters, self.possible_answers)
+        ordered_list = quantity_ordered_list(weights_bank, "regular")
+        probability = 1 - ((self.total_attempts - (self.attempts_left / self.CHANCE_CONSTANT))
+                           / (self.total_attempts * 1.0))
+        if flip_weighted_coin(probability) and len(self.possible_answers) > 1:
             weights_secret = self.create_weights(ordered_letters, self.secret_bank)
-            ordered_list = quantity_ordered_list(weights_secret)
-        else:
-            weights_bank = self.create_weights(ordered_letters, self.possible_answers)
-            ordered_list = quantity_ordered_list(weights_bank)
+            ordered_list += quantity_ordered_list(weights_secret, "secret")
+            ordered_list.sort(key=lambda x: x[1], reverse=True)
         standard = ordered_list[0][1]
         filtered = list(filter(lambda x: x[1] == standard, ordered_list))
-        guess = random.choice(filtered)[0]
+        guess = generate_word_from(filtered)[0]
         self.attempts_left -= 1
         self.possible_answers.discard(guess)
         self.secret_bank.discard(guess)
         return guess
 
-    # TODO: UPDATE FEEDBACK
+    def feedback(self, guess, feedback):
+        super().feedback(guess, feedback)
+        self.update_feedback(guess, feedback, self.secret_bank)

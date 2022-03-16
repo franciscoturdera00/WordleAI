@@ -24,6 +24,10 @@ def get_all_5_letter_words(path):
     return get_word_list_from(path + "/word_banks/5_letters.txt")
 
 
+def get_simplified_5_list(path):
+    return get_word_list_from(path + "/word_banks/simplified_5.txt")
+
+
 def print_progress(guess, feedback):
     """Prints progress of game"""
     guess_status = ""
@@ -43,11 +47,14 @@ def generate_word_from(word_bank):
     return random.choice(list(word_bank))
 
 
-def quantity_ordered_list(integer_value_map):
+def quantity_ordered_list(integer_value_map, log=None):
     """Returns ordered list in format: [(key34, 86), (key89, 53), (key12, 42)...]"""
     final_list = []
     for key in integer_value_map:
-        final_list.append((key, integer_value_map[key]))
+        if log is None:
+            final_list.append((key, integer_value_map[key]))
+        else:
+            final_list.append((key, integer_value_map[key], log))
     final_list.sort(key=lambda x: x[1], reverse=True)
     return final_list
 
