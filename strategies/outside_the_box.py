@@ -5,6 +5,10 @@ from util.functions import quantity_ordered_list, flip_weighted_coin, generate_w
 
 
 class ThinkOutsideTheBoxStrategy(IndexDecisionStrategy):
+    """
+    Works just like IndexDecisionStrategy but uses explore/exploit
+    approach regarding the usage of an auxiliary word list
+    """
 
     def __init__(self, word_bank, secret_bank, length_of_word, attempts):
         super().__init__(word_bank, secret_bank, length_of_word, attempts)
