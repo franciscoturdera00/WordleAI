@@ -12,7 +12,6 @@ class ThinkOutsideTheBoxStrategy(IndexDecisionStrategy):
         self.attempts_left = attempts
         self.CHANCE_CONSTANT = 1.0
 
-    # TODO: Compare Weights as well, decide based on it
     def guess(self):
         ordered_letters = self.letter_quantity(self.possible_answers, self.length_of_word)
         weights_bank = self.create_weights(ordered_letters, self.possible_answers)
