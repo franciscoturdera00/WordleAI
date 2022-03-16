@@ -25,7 +25,7 @@ wordle_ai.py [-h] -w WORD [-s STRATEGY] [-wb WORD_BANK] [-sb SECRET_BANK] [-a AT
 
   -w WORD, --word WORD                         word to guess
 
-  -s STRATEGY, --strategy STRATEGY             strategy used in the game. Default: smart_guess
+  -s STRATEGY, --strategy STRATEGY             strategy used in the game. Default: index_decision
 
   -wb WORD_BANK, --word-bank WORD_BANK         file path for word bank to be used
 
