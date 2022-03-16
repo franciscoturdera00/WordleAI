@@ -8,7 +8,7 @@ class Strategy:
 
     def __init__(self, word_bank, secret_bank, length_of_word, attempts):
         self.possible_answers = word_bank
-        self.secret_bank = secret_bank
+        self.secret_bank = secret_bank - word_bank
         self.length_of_word = length_of_word
         self.total_attempts = attempts
 
