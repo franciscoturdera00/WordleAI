@@ -16,20 +16,20 @@ pip3 install tqdm
 
 ### Usage
 <pre>
-wordle_ai.py [-h] [-s STRATEGY] [-wb WORD_BANK] [-sb SECRET_BANK] -w WORD [-a ATTEMPTS] [-p]
+wordle_ai.py [-h] -w WORD [-s STRATEGY] [-wb WORD_BANK] [-sb SECRET_BANK] [-a ATTEMPTS] [-p]
 </pre>
 
 ### Optional Arguments:
 <pre>
   -h, --help                                   show this help message and exit
 
+  -w WORD, --word WORD                         word to guess
+
   -s STRATEGY, --strategy STRATEGY             strategy used in the game. Default: smart_guess
 
   -wb WORD_BANK, --word-bank WORD_BANK         file path for word bank to be used
 
   -sb SECRET_BANK, --secret-bank SECRET_BANK   file path for auxiliary allowed guesses
-
-  -w WORD, --word WORD                         word to guess
 
   -a ATTEMPTS, --attempts ATTEMPTS             attempts the AI receives
 
@@ -54,7 +54,8 @@ outside_the_box   Works just like index_decision, but also takes advantage of th
                   or a larger pool (secret bank) to eliminate more possible answers
 </pre>
 
-There are various [word banks](word_banks/) available for user.
+By default, WordleAI uses the Official Wordle Word Bank, which some users may find limiting.
+[More Word Banks are available for the user here](word_banks/).
 
 # Performance
 
