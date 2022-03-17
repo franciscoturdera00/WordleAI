@@ -14,8 +14,9 @@ class IndexDecisionStrategy(SmartGuessStrategy):
     def create_weights(ordered_letters, words):
         weights = dict.fromkeys(words, 0)
         for w in words:
+            freq = Counter(w)
             for i, letter in enumerate(w):
-                weights[w] += ordered_letters[i][letter]
+                weights[w] += ordered_letters[i][letter] / freq[letter]
         return weights
 
     @staticmethod

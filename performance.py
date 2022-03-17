@@ -1,5 +1,4 @@
 import os
-from enum import Enum
 from pathlib import Path
 import json
 from tqdm import tqdm
@@ -8,12 +7,13 @@ from config.performance_parser import performance_parser
 from game_logic.ai_play import play_ai
 from util.functions import get_official_list, generate_word_from, get_all_5_letter_words, get_official_guess_list, \
     get_simplified_5_list, remove_0s, quantity_ordered_list
+from util.meta_enum import BaseEnum
 
 PERFORMANCE_MARKER = 2000
 current_path = str(Path(os.getcwd()))
 
 
-class Strats(Enum):
+class Strats(BaseEnum):
     SIMPLE_FILTER_OFFICIAL = 'simple_filter_official'
     SIMPLE_FILTER_ALL_5 = 'simple_filter_all_5'
     SMART_GUESS_OFFICIAL = 'smart_guess_official'
@@ -32,7 +32,7 @@ def identity_or_progress(progress, fn):
 
 def test_performance(strategy, word_bank, secret_bank, performance_marker, print_mode):
     average = 0
-    frequency = dict.fromkeys(range(1, 100), 0)
+    frequency = dict.fromkeys(range(1, 10000), 0)
     for i in identity_or_progress(print_mode, range(1, performance_marker)):
         _, num = play_ai(strategy, word_bank.copy(), secret_bank.copy(), generate_word_from(word_bank.copy()), 6000)
         average = ((i - 1) * average + num) / i
@@ -167,6 +167,8 @@ def update_performance_analytics(jsn, strategy, updated_value):
 
 if __name__ == '__main__':
     args = performance_parser()
+    if args.strategy is not None and not Strats.__contains_all__(args.strategy):
+        exit("Invalid Strategy Given")
     not_valid = True
     analytics_file = 'performance_analytics/analytics.json'
     db = None
