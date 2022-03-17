@@ -1,6 +1,7 @@
 # WordleAI
 
-An AI that plays a <a href="https://www.nytimes.com/games/wordle/index.html" target="_blank">Wordle</a>-like game. Designed for variable-length words.
+An AI that plays a <a href="https://www.nytimes.com/games/wordle/index.html" target="_blank">Wordle</a>-like game.
+Designed for variable-length words.
 
 ### Requirements:
 <pre>
@@ -109,7 +110,7 @@ This program also offers a way for you to play!
 
 ### Usage: 
 <pre>
-manual_play.py [-h] [-a ATTEMPTS] [-wb WORD_BANK]
+manual_play.py [-h] [-a ATTEMPTS] [-wb WORD_BANK] [-sb SECRET_BANK]
 </pre>
 
 Optional Arguments:

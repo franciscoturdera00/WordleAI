@@ -1,5 +1,3 @@
-import random
-
 from strategies.index_decision import IndexDecisionStrategy
 from util.functions import quantity_ordered_list, flip_weighted_coin, generate_word_from
 
@@ -27,12 +25,13 @@ class ThinkOutsideTheBoxStrategy(IndexDecisionStrategy):
             ordered_list.sort(key=lambda x: x[1], reverse=True)
         standard = ordered_list[0][1]
         filtered = list(filter(lambda x: x[1] == standard, ordered_list))
-        guess = generate_word_from(filtered)[0]
+        # If words from the word bank are tied in top weight, use those
+        try_from_bank = list(filter(lambda x: x[2] == 'regular', filtered))
+        optimal = filtered
+        if try_from_bank:
+            optimal = try_from_bank
+        guess = generate_word_from(optimal)[0]
         self.attempts_left -= 1
         self.possible_answers.discard(guess)
         self.secret_bank.discard(guess)
         return guess
-
-    def feedback(self, guess, feedback):
-        super().feedback(guess, feedback)
-        self.update_feedback(guess, feedback, self.secret_bank)
