@@ -31,7 +31,6 @@ jobs:
       run: |
         python -m pytest --cov=. tests/unit_tests/
         python -m pytest tests/integrations_tests/
-        cat ~/WordleAI/tests/coverage.txt
 
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v2
