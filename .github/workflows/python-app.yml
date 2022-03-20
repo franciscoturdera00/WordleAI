@@ -31,3 +31,4 @@ jobs:
       run: |
         python -m pytest --cov=. tests/unit_tests/ > tests/coverage.txt
         python -m pytest tests/integrations_tests/
+        cat tests/coverage.txt
