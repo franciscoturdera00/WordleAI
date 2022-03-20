@@ -29,4 +29,5 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        pytest tests/
+        python3 -m pytest tests/integrations_tests/
+        python3 -m pytest --cov=. tests/unit_tests/ > tests/coverage.txt
