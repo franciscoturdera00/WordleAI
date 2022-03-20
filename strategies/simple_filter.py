@@ -17,13 +17,18 @@ class SimpleFilterStrategy(Strategy):
         bank = list(bank)
         letter_found = dict.fromkeys(LIST_OF_LETTERS, 0)
         for i, feed in enumerate(feedback):
+            letter = guess[i]
             # If letter is correct, eliminate all options
             # where this index is not this letter
             if feed == Feedback.CORRECT:
-                letter_found[guess[i]] += 1
+                letter_found[letter] += 1
                 bank[:] = [word for word in bank if word[i] == guess[i]]
             if feed == Feedback.IN_WORD:
-                letter_found[guess[i]] += 1
+                letter_found[letter] += 1
+            if feed == Feedback.IN_WORD:
+                # Since letter is definitely not in this spot,
+                # eliminate all options that contains this letter in this spot
+                bank[:] = [word for word in bank if word[i] != letter]
 
         for ch in letter_found:
             bank[:] = [word for word in bank if letter_found[ch] <= word.count(ch)]
@@ -34,9 +39,5 @@ class SimpleFilterStrategy(Strategy):
                 # Eliminate all options that contain this letter
                 valid_times = letter_found[letter]
                 bank[:] = [word for word in bank if word.count(letter) <= valid_times]
-            if feed == Feedback.IN_WORD:
-                # Since letter is definitely not in this spot,
-                # eliminate all options that contains this letter in this spot
-                bank[:] = [word for word in bank if word[i] != letter]
 
         return set(bank)
