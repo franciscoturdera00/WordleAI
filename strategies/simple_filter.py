@@ -1,5 +1,3 @@
-from collections import Counter
-
 from strategies.strategy import Strategy
 from strategies.feedback import Feedback
 from util.constants import LIST_OF_LETTERS
