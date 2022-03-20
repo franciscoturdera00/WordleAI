@@ -29,6 +29,15 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        python -m pytest --cov=. tests/unit_tests/ > ~/WordleAI/tests/coverage.txt
+        python -m pytest --cov=. tests/unit_tests/
         python -m pytest tests/integrations_tests/
         cat ~/WordleAI/tests/coverage.txt
+
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        files: ./coverage1.xml,./coverage2.xml # optional
+        flags: unittests # optional
+        name: codecov-umbrella # optional
+        fail_ci_if_error: true # optional (default = false)
+        verbose: true # optional (default = false)
