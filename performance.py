@@ -33,7 +33,7 @@ def identity_or_progress(progress, fn):
 def test_performance(strategy, word_bank, secret_bank, performance_marker, print_mode):
     average = 0
     frequency = dict.fromkeys(range(1, 10000), 0)
-    for i in identity_or_progress(print_mode, range(1, performance_marker)):
+    for i in identity_or_progress(print_mode, range(1, performance_marker + 1)):
         _, num = play_ai(strategy, word_bank.copy(), secret_bank.copy(), generate_word_from(word_bank.copy()), 6000)
         average = ((i - 1) * average + num) / i
         frequency[num] += 1
