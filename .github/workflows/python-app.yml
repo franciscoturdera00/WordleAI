@@ -37,8 +37,7 @@ jobs:
       with:
         flags: pytest # optional
         directory: ./coverage/reports/
-        files: ./coverage.xml
-        path_to_write_report: ./coverage/codecov_report.txt
+        files: ./coverage/reports/coverage.xml
         name: codecov-umbrella # optional
         fail_ci_if_error: true # optional (default = false)
         verbose: true # optional (default = false)
