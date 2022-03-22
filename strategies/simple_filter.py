@@ -25,11 +25,11 @@ class SimpleFilterStrategy(RandomStrategy):
                 bank[:] = [word for word in bank if word[i] == guess[i]]
             if feed == Feedback.IN_WORD:
                 letter_found[letter] += 1
-            if feed == Feedback.IN_WORD:
                 # Since letter is definitely not in this spot,
                 # eliminate all options that contains this letter in this spot
                 bank[:] = [word for word in bank if word[i] != letter]
 
+        # Eliminate all options that contains more of a letter than found in this guess
         for ch in letter_found:
             bank[:] = [word for word in bank if letter_found[ch] <= word.count(ch)]
 
