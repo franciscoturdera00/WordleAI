@@ -1,9 +1,9 @@
-from strategies.strategy import Strategy
+from strategies.random_strategy import RandomStrategy
 from strategies.feedback import Feedback
 from util.constants import LIST_OF_LETTERS
 
 
-class SimpleFilterStrategy(Strategy):
+class SimpleFilterStrategy(RandomStrategy):
     """Filters out words that are no longer possible"""
 
     def feedback(self, guess, feedback):
