@@ -33,30 +33,30 @@ jobs:
         python -m pytest tests/integrations_tests/
         coverage report -m > ${{ env.home}}/coverage/reports/coverage.txt
 
-    - name: Extract branch name
-      shell: bash
-      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      id: extract_branch
-
-    - name: Commit files
-      id: commit
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "github-actions"
-        git add --all
-        if [-z "$(git status --porcelain)"]; then
-           echo "::set-output name=push::false"
-        else
-           git commit -m "Add changes" -a
-           echo "::set-output name=push::true"
-        fi
-      shell: bash
-
-    - name: Push changes
-      if: steps.commit.outputs.push == 'true'
-      uses: ad-m/github-push-action@${{ steps.extract_branch.outputs.branch }}
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+#    - name: Extract branch name
+#      shell: bash
+#      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+#      id: extract_branch
+#
+#    - name: Commit files
+#      id: commit
+#      run: |
+#        git config --local user.email "action@github.com"
+#        git config --local user.name "github-actions"
+#        git add --all
+#        if [-z "$(git status --porcelain)"]; then
+#           echo "::set-output name=push::false"
+#        else
+#           git commit -m "Add changes" -a
+#           echo "::set-output name=push::true"
+#        fi
+#      shell: bash
+#
+#    - name: Push changes
+#      if: commit.outputs.push == 'true'
+#      uses: ad-m/github-push-action@${{ steps.extract_branch.outputs.branch }}
+#      with:
+#        github_token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v2
