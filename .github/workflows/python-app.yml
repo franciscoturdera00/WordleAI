@@ -32,7 +32,8 @@ jobs:
         python -m pytest --cov=./ --cov-report=xml:./coverage/reports/coverage.xml tests/unit_tests/
         python -m pytest tests/integrations_tests/
 
-    - uses: DamianReeves/write-file-action
+    - name: Write File
+      uses: DamianReeves/write-file-action@v1.0
       with:
         path: ${{ env.home}}/coverage/reports/coverage.txt
         contents: |
