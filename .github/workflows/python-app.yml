@@ -31,7 +31,7 @@ jobs:
       run: |
         python -m pytest --cov=./ --cov-report=xml:./coverage/reports/coverage.xml tests/unit_tests/
         python -m pytest tests/integrations_tests/
-        coverage report -m > ${{ env.home}}/coverage/reports/coverage.txt
+        coverage report -m > ${{GITHUB_WORKSPACE}}/coverage/reports/coverage.txt
 
 #    - name: Extract branch name
 #      shell: bash
