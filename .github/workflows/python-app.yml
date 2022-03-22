@@ -31,7 +31,13 @@ jobs:
       run: |
         python -m pytest --cov=./ --cov-report=xml:./coverage/reports/coverage.xml tests/unit_tests/
         python -m pytest tests/integrations_tests/
-        coverage report -m > ./coverage/reports/coverage.txt
+
+    - uses: DamianReeves/write-file-action
+      with:
+        path: ${{ env.home}}/coverage/reports/coverage.txt
+        contents: |
+          coverage report -m
+        write-mode: overwrite
 
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v2
