@@ -31,14 +31,7 @@ jobs:
       run: |
         python -m pytest --cov=./ --cov-report=xml:./coverage/reports/coverage.xml tests/unit_tests/
         python -m pytest tests/integrations_tests/
-
-    - name: Write File
-      uses: DamianReeves/write-file-action@v1.0
-      with:
-        path: ${{ env.home}}/coverage/reports/coverage.txt
-        contents: |
-          coverage report -m
-        write-mode: overwrite
+        coverage report -m > ${{ env.home}}/coverage/reports/coverage.txt
 
     - name: Extract branch name
       shell: bash
