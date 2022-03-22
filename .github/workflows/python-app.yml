@@ -55,9 +55,10 @@ jobs:
 
     - name: Push changes
       if: steps.commit.outputs.push == 'true'
-      uses: ad-m/github-push-action@steps.extract_branch.outputs.branch
+      uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
 
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v2
