@@ -1,1 +1,20 @@
-g
+Name                                      Stmts   Miss  Cover   Missing
+-----------------------------------------------------------------------
+game_logic/analyzer.py                       23      0   100%
+manual_play.py                               65     65     0%   1-75
+performance.py                              160    160     0%   1-220
+strategies/feedback.py                        5      0   100%
+strategies/index_decision.py                 21      6    71%   15-20
+strategies/random_strategy.py                 7      3    57%   9-11
+strategies/simple_filter.py                  26     19    27%   10, 17-43
+strategies/smart_guess.py                    31     15    52%   17-25, 29-34
+strategies/strategy.py                       10      6    40%   6-9, 13, 17
+tests/__init__.py                             0      0   100%
+tests/unit_tests/test_analyzer.py            23      0   100%
+tests/unit_tests/test_index_decision.py      13      0   100%
+tests/unit_tests/test_smart_guess.py         10      0   100%
+util/constants.py                             2      0   100%
+util/functions.py                            46     31    33%   7-12, 16, 20, 24, 28, 33-43, 47, 52-59, 71-72
+wordle_ai.py                                 23     23     0%   1-28
+-----------------------------------------------------------------------
+TOTAL                                       465    328    29%
