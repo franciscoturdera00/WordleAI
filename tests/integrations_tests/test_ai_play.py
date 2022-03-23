@@ -10,8 +10,8 @@ class Test(TestCase):
     """Integration Tests: Simply tests the strategies don't crash"""
 
     current_file = os.path.dirname(__file__)
-    parent_path = str(Path(current_file).absolute().parent.absolute())
-    official_list = get_official_list(parent_path)
+    grand_parent_path = str(Path(current_file).absolute().parent.absolute().parent.absolute())
+    official_list = get_official_list(grand_parent_path)
 
     def test_random_strategy(self):
         for i in range(100):
@@ -36,5 +36,5 @@ class Test(TestCase):
     def test_outside_the_box_strategy(self):
         for i in range(100):
             lst = self.official_list.copy()
-            secret = get_official_guess_list(self.parent_path)
+            secret = get_official_guess_list(self.grand_parent_path)
             play_ai("outside_the_box", lst, secret, generate_word_from(lst), 10)
