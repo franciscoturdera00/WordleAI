@@ -10,7 +10,7 @@ class Test(TestCase):
         self.assertEqual(perfect, analyze_guess("words", "words", ["words"]))
 
         all_bad = [Feedback.NOT_IN_WORD] * 8
-        self.assertEqual(all_bad, analyze_guess("lkostasc", "", ["lkostasc", "pireqwmn"]))
+        self.assertEqual(all_bad, analyze_guess("lkostasc", "pireqwmn", ["lkostasc", "pireqwmn"]))
 
     def test_analyze_guess_dups(self):
         """If failing, probably checking multiple letters wrong"""
