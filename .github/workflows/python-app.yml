@@ -38,6 +38,16 @@ jobs:
         coverage report -m > ${GITHUB_WORKSPACE}/coverage/reports/coverage.txt
         cat ${GITHUB_WORKSPACE}/coverage/reports/coverage.txt
 
+    - name: Upload Coverage to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        flags: pytest # optional
+        directory: ./coverage/reports/
+        files: ./coverage/reports/coverage.xml
+        name: codecov-umbrella # optional
+        fail_ci_if_error: true # optional (default = false)
+        verbose: true # optional (default = false)
+
     - name: Extract branch name
       if: github.event_name != 'pull_request'
       shell: bash
@@ -60,18 +70,9 @@ jobs:
       shell: bash
 
     - name: Push changes
-      if: ${{github.event_name != 'pull_request' $$ steps.commit.outputs.push == 'true'}}
+      if: ${{github.event_name != 'pull_request' && steps.commit.outputs.push == 'true'}}
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: ${{ github.ref }}
 
-    - name: Upload Coverage to Codecov
-      uses: codecov/codecov-action@v2
-      with:
-        flags: pytest # optional
-        directory: ./coverage/reports/
-        files: ./coverage/reports/coverage.xml
-        name: codecov-umbrella # optional
-        fail_ci_if_error: true # optional (default = false)
-        verbose: true # optional (default = false)
