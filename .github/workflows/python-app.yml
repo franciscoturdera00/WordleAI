@@ -8,8 +8,6 @@ on:
     branches:
       - master
   pull_request:
-    branches:
-      - master
 
 jobs:
   build:
@@ -41,11 +39,13 @@ jobs:
         cat ${GITHUB_WORKSPACE}/coverage/reports/coverage.txt
 
     - name: Extract branch name
+      if: github.event_name != 'pull_request'
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
 
     - name: Commit files
+      if: github.event_name != 'pull_request'
       id: commit
       run: |
         git config --local user.email "action@github.com"
@@ -60,7 +60,7 @@ jobs:
       shell: bash
 
     - name: Push changes
-      if: steps.commit.outputs.push == 'true'
+      if: github.event_name != 'pull_request' $$ steps.commit.outputs.push == 'true'
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
