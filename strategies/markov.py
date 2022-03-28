@@ -11,14 +11,14 @@ class MarkovStrategy(IndexDecisionStrategy):
 
     def guess(self):
         options = self.generate_options()
-        weights = [(word, self.return_probability_of_correct_in(1, word)) for word in options]
+        weights = [(word, self.return_probability_of_correct_in(word)) for word in options]
         weights.sort(key=lambda x: x[1], reverse=True)
         standard = weights[0][1]
         filtered = list(filter(lambda x: x[1] == standard, weights))
         chosen = generate_word_from(filtered)
         return chosen[0]
 
-    def return_probability_of_correct_in(self, depth, guess):
+    def return_probability_of_correct_in(self, guess):
         weighted_prob = 0
         for i, p in enumerate(self.prod):
             new_bank_size = len(self.update_feedback(guess, p, self.possible_answers.copy()))
