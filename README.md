@@ -53,6 +53,8 @@ index_decision    Chooses guess intelligently by finding frequency of letters at
 outside_the_box   Works just like index_decision, but also takes advantage of the secret bank
                   and uses an explore/exploit approach to choose words from the word bank
                   or a larger pool (secret bank) to eliminate more possible answers
+
+markov            IN DEVELOPMENT
 </pre>
 
 By default, WordleAI uses the Official Wordle Word Bank, which some users may find limiting.
