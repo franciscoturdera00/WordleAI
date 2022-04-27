@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from config.arguments_parser import initiate_parser
 from game_logic.ai_play import play_ai
 

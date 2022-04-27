@@ -3,16 +3,11 @@
 An AI that plays a <a href="https://www.nytimes.com/games/wordle/index.html" target="_blank">Wordle</a>-like game.
 Designed for variable-length words.
 
-### Requirements:
+### Set Up
+From the **root** directory:
 <pre>
-python3
-pip3
-tqdm
-</pre>
-
-#### Get tqdm:
-<pre>
-pip3 install tqdm
+pip install -r requirements
+export PYTHONPATH=`pwd`
 </pre>
 
 ### Usage
