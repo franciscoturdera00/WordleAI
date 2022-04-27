@@ -48,31 +48,31 @@ jobs:
         fail_ci_if_error: true # optional (default = false)
         verbose: true # optional (default = false)
 
-    - name: Extract branch name
-      if: github.event_name != 'pull_request'
-      shell: bash
-      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      id: extract_branch
-
-    - name: Commit files
-      if: github.event_name != 'pull_request'
-      id: commit
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "github-actions"
-        git add --all
-        if [-z "$(git status --porcelain)"]; then
-           echo "::set-output name=push::false"
-        else
-           git commit -m "Add changes" -a
-           echo "::set-output name=push::true"
-        fi
-      shell: bash
-
-    - name: Push changes
-      if: ${{github.event_name != 'pull_request' && steps.commit.outputs.push == 'true'}}
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.ref }}
+#    - name: Extract branch name
+#      if: github.event_name != 'pull_request'
+#      shell: bash
+#      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+#      id: extract_branch
+#
+#    - name: Commit files
+#      if: github.event_name != 'pull_request'
+#      id: commit
+#      run: |
+#        git config --local user.email "action@github.com"
+#        git config --local user.name "github-actions"
+#        git add --all
+#        if [-z "$(git status --porcelain)"]; then
+#           echo "::set-output name=push::false"
+#        else
+#           git commit -m "Add changes" -a
+#           echo "::set-output name=push::true"
+#        fi
+#      shell: bash
+#
+#    - name: Push changes
+#      if: ${{github.event_name != 'pull_request' && steps.commit.outputs.push == 'true'}}
+#      uses: ad-m/github-push-action@master
+#      with:
+#        github_token: ${{ secrets.GITHUB_TOKEN }}
+#        branch: ${{ github.ref }}
 
