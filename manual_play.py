@@ -1,5 +1,6 @@
+#!/usr/bin/env python3
+
 import os
-import random
 from pathlib import Path
 
 from config.manual_play_parser import manual_parser
