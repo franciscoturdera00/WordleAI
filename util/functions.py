@@ -1,6 +1,7 @@
 import random
 
 from strategies.feedback import Feedback
+from itertools import product
 
 
 def get_word_list_from(path):
@@ -70,3 +71,7 @@ def remove_0s(original):
 def flip_weighted_coin(cutoff=0.5):
     val = random.uniform(0, 1)
     return val < cutoff
+
+
+def get_product(size, *candidates):
+    return list(product(list(candidates), repeat=size))

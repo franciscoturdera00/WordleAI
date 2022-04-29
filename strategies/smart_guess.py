@@ -14,15 +14,19 @@ class SmartGuessStrategy(SimpleFilterStrategy):
     """
 
     def guess(self):
+        options = self.generate_options()
+        guess = generate_word_from(options)
+        self.possible_answers.discard(guess)
+        self.secret_bank.discard(guess)
+        return guess
+
+    def generate_options(self):
         ordered_letters = self.letter_quantity(self.possible_answers, self.length_of_word)
         weights = self.create_weights(ordered_letters, self.possible_answers)
         ordered_list = quantity_ordered_list(weights)
         standard = ordered_list[0][1]
         filtered = list(filter(lambda x: x[1] == standard, ordered_list))
-        guess = generate_word_from(filtered)[0]
-        self.possible_answers.discard(guess)
-        self.secret_bank.discard(guess)
-        return guess
+        return [x[0] for x in filtered]
 
     @staticmethod
     def create_weights(ordered_letters, words):
