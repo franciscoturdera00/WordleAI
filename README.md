@@ -50,7 +50,8 @@ outside_the_box   Works just like index_decision, but also takes advantage of th
                   and uses an explore/exploit approach to choose words from the word bank
                   or a larger pool (secret bank) to eliminate more possible answers
 
-markov            IN DEVELOPMENT
+markov            Calculates the probability it will deliver the correct answer in the following guess 
+                  and takes it into account when weighing each possible guess
 </pre>
 
 By default, WordleAI uses the Official Wordle Word Bank, which some users may find limiting.
@@ -99,6 +100,8 @@ index_decision_all_5      Index Decision against a word bank with all 5 letter w
 outside_the_box_official  Think Outside The Box against the official Wordle word list and Official Guess List
 
 outside_the_box_large     Think Outside The Box against a simplified 5 letter words list and all 5 letters Guess List
+
+markov_official           Markov against the official Wordle word list
 </pre>
 
 Current Performance Information can be found [here](performance_analytics/analytics.json).

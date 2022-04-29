@@ -171,11 +171,13 @@ def handle_outside_the_box_large(print_mode, data, update):
 def handle_markov_official(print_mode, data, update):
     new_value = test_markov_with_official_wordle_list(print_mode)
     if update:
-        update_performance_analytics(data, Strats.MARKOV_OFFICIAL, new_value)
+        update_performance_analytics(data, Strats.MARKOV_OFFICIAL.value, new_value)
     display_performance("Markov", "Official Wordle List", new_value)
 
 
 def update_performance_analytics(jsn, strategy, updated_value):
+    if strategy not in jsn['Performance']:
+        jsn['Performance'][strategy] = {}
     jsn['Performance'][strategy]['average'] = updated_value[0]
     jsn['Performance'][strategy]['mean'] = updated_value[1]
     jsn['Performance'][strategy]['break_down'] = updated_value[2]
