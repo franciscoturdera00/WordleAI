@@ -7,7 +7,14 @@ from game_logic.ai_play import play_ai
 def ai_plays(args, wb, sb):
     win, attempts = False, args.attempts
     try:
-        win, attempts = play_ai(args.strategy.lower(), wb, sb, args.word.lower(), args.attempts, args.print_mode)
+        win, attempts = play_ai(
+            args.strategy.lower(),
+            wb,
+            sb,
+            args.word.lower(),
+            args.attempts,
+            print_mode=args.print_mode,
+        )
     except ValueError as ve:
         exit(str(ve))
     if win:
@@ -16,7 +23,7 @@ def ai_plays(args, wb, sb):
         print("Lose :( Word: %s" % args.word)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     arguments = initiate_parser()
     secret_bank = set()
     try:

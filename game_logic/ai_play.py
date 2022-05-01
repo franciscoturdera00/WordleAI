@@ -8,12 +8,22 @@ from strategies.smart_guess import SmartGuessStrategy
 from util.functions import print_progress
 
 
-def play_ai(strat_type, word_bank, secret_bank, answer, attempts_left, print_mode=False):
+def play_ai(
+    strat_type,
+    word_bank,
+    secret_bank,
+    answer,
+    attempts_left,
+    print_mode=False,
+    never_lose=False,
+):
     if answer not in word_bank:
         raise ValueError("Answer is not in Word Bank")
-    strategy = choose_strategy(strat_type, word_bank.copy(), secret_bank.copy(), len(answer), attempts_left)
+    strategy = choose_strategy(
+        strat_type, word_bank.copy(), secret_bank.copy(), len(answer), attempts_left
+    )
     max_attempts = attempts_left
-    while attempts_left > 0:
+    while attempts_left > 0 or never_lose:
         guess = strategy.guess()
         attempts_left -= 1
         if guess == answer:
@@ -40,7 +50,9 @@ def choose_strategy(strategy, word_bank, secret_bank, answer_length, attempts):
     if strategy == "index_decision":
         return IndexDecisionStrategy(word_bank, secret_bank, answer_length, attempts)
     if strategy == "outside_the_box":
-        return ThinkOutsideTheBoxStrategy(word_bank, secret_bank, answer_length, attempts)
+        return ThinkOutsideTheBoxStrategy(
+            word_bank, secret_bank, answer_length, attempts
+        )
     if strategy == "markov":
         return MarkovStrategy(word_bank, secret_bank, answer_length, attempts)
     else:

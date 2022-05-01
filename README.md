@@ -85,6 +85,8 @@ Not adding any arguments will run all performance tests.
 
 ### Performance Strategy Options:
 <pre>
+random_official           Random Strategy against the official Wordle word list
+
 simple_filter_official    Simple Filter against the official Wordle word list
 
 simple_filter_all_5       Simple Filter against a word bank with all 5 letter words
@@ -96,6 +98,8 @@ smart_guess_all_5         Smart Guess against a word bank with all 5 letter word
 index_decision_official   Index Decision against the official Wordle word list
 
 index_decision_all_5      Index Decision against a word bank with all 5 letter words
+
+index_decision_large      Index Decision against a word bank against a simplified 5 letter words list
 
 outside_the_box_official  Think Outside The Box against the official Wordle word list and Official Guess List
 
