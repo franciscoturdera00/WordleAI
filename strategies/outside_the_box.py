@@ -26,7 +26,7 @@ class ThinkOutsideTheBoxStrategy(IndexDecisionStrategy):
         standard = ordered_list[0][1]
         filtered = list(filter(lambda x: x[1] == standard, ordered_list))
         # If words from the word bank are tied in top weight, use those
-        try_from_bank = list(filter(lambda x: x[2] == 'regular', filtered))
+        try_from_bank = list(filter(lambda x: x[2] == "regular", filtered))
         optimal = filtered
         if try_from_bank:
             optimal = try_from_bank
