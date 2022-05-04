@@ -5,8 +5,13 @@ from pathlib import Path
 
 from config.manual_play_parser import manual_parser
 from game_logic.analyzer import analyze_guess
-from util.functions import get_official_list, print_progress, get_word_list_from, generate_word_from, \
-    get_official_guess_list
+from util.functions import (
+    get_official_list,
+    print_progress,
+    get_word_list_from,
+    generate_word_from,
+    get_official_guess_list,
+)
 
 
 def play_game(path, args):
@@ -61,7 +66,7 @@ if __name__ == "__main__":
     while True:
         play_game(current_path, arguments)
         play_again = ""
-        while play_again != 'y' and play_again != 'n':
+        while play_again != "y" and play_again != "n":
             play_again = input("Want to play again? (y/n) ")
             if play_again == "y":
                 print()
@@ -74,5 +79,3 @@ if __name__ == "__main__":
             else:
                 print("Please input 'y' ot 'n'")
                 continue
-
-

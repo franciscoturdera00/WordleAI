@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 
+from copy import deepcopy
 import os
 from pathlib import Path
 import json
 from tqdm import tqdm
 
 from config.performance_parser import performance_parser
-from game_logic.ai_play import play_ai
+from game_logic.ai_play import play_game
+from strategies.index_decision import IndexDecisionStrategy
+from strategies.markov import MarkovStrategy
+from strategies.outside_the_box import ThinkOutsideTheBoxStrategy
+from strategies.random_strategy import RandomStrategy
+from strategies.simple_filter import SimpleFilterStrategy
+from strategies.smart_guess import SmartGuessStrategy
 from util.functions import (
     get_official_list,
     generate_word_from,
@@ -47,8 +54,8 @@ def test_performance(strategy, word_bank, secret_bank, performance_marker, print
     average = 0
     frequency = dict.fromkeys(range(1, 10000), 0)
     for i in identity_or_progress(print_mode, range(1, performance_marker + 1)):
-        _, num = play_ai(
-            strategy,
+        _, num = play_game(
+            deepcopy(strategy),
             word_bank.copy(),
             secret_bank.copy(),
             generate_word_from(word_bank.copy()),
@@ -65,77 +72,70 @@ def test_performance(strategy, word_bank, secret_bank, performance_marker, print
 
 def test_random_performance_with_official_wordle_list(print_mode):
     official_list = get_official_list(current_path)
-    return test_performance(
-        "random", official_list, set(), PERFORMANCE_MARKER, print_mode
-    )
+    strat = RandomStrategy(official_list.copy(), set(), 5, 6)
+    return test_performance(strat, official_list, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_simple_filter_performance_with_official_wordle_list(print_mode):
     official_list = get_official_list(current_path)
-    return test_performance(
-        "simple_filter", official_list, set(), PERFORMANCE_MARKER, print_mode
-    )
+    strat = SimpleFilterStrategy(official_list.copy(), set(), 5, 6)
+    return test_performance(strat, official_list, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_simple_filter_performance_with_all_5_letter_words(print_mode):
     lst = get_all_5_letter_words(current_path)
-    return test_performance("simple_filter", lst, set(), PERFORMANCE_MARKER, print_mode)
+    strat = SimpleFilterStrategy(lst.copy(), set(), 5, 6)
+    return test_performance(strat, lst, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_smart_guess_with_official_wordle_list(print_mode):
     official_list = get_official_list(current_path)
-    return test_performance(
-        "smart_guess", official_list, set(), PERFORMANCE_MARKER, print_mode
-    )
+    strat = SmartGuessStrategy(official_list.copy(), set(), 5, 6)
+    return test_performance(strat, official_list, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_smart_guess_with_all_5_letter_words(print_mode):
     lst = get_all_5_letter_words(current_path)
-    return test_performance("smart_guess", lst, set(), PERFORMANCE_MARKER, print_mode)
+    strat = SmartGuessStrategy(lst.copy(), set(), 5, 6)
+    return test_performance(strat, lst, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_index_decision_with_official_wordle_list(print_mode):
     official_list = get_official_list(current_path)
-    return test_performance(
-        "index_decision", official_list, set(), PERFORMANCE_MARKER, print_mode
-    )
+    strat = IndexDecisionStrategy(official_list.copy(), set(), 5, 6)
+    return test_performance(strat, official_list, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_index_decision_with_all_5_letter_words(print_mode):
     lst = get_all_5_letter_words(current_path)
-    return test_performance(
-        "index_decision", lst, set(), PERFORMANCE_MARKER, print_mode
-    )
+    strat = IndexDecisionStrategy(lst.copy(), set(), 5, 6)
+    return test_performance(strat, lst, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_index_decision_with_simplified_5_list(print_mode):
     lst = get_simplified_5_list(current_path)
-    return test_performance(
-        "index_decision", lst, set(), PERFORMANCE_MARKER, print_mode
-    )
+    strat = IndexDecisionStrategy(lst.copy(), set(), 5, 6)
+    return test_performance(strat, lst, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def test_out_the_box_with_official_wordle_list(print_mode):
     official_list = get_official_list(current_path)
     secret_list = get_official_guess_list(current_path)
-    return test_performance(
-        "outside_the_box", official_list, secret_list, PERFORMANCE_MARKER, print_mode
-    )
+    strat = ThinkOutsideTheBoxStrategy(official_list.copy(), secret_list.copy(), 5, 6)
+    return test_performance(strat, official_list, secret_list, PERFORMANCE_MARKER, print_mode)
 
 
 def test_out_the_box_with_simplified_5_list(print_mode):
     simplified_5 = get_simplified_5_list(current_path)
     secret_list = get_all_5_letter_words(current_path)
-    return test_performance(
-        "outside_the_box", simplified_5, secret_list, PERFORMANCE_MARKER, print_mode
-    )
+    strat = ThinkOutsideTheBoxStrategy(simplified_5.copy(), secret_list.copy(), 5, 6)
+    return test_performance(strat, simplified_5, secret_list, PERFORMANCE_MARKER, print_mode)
 
 
 def test_markov_with_official_wordle_list(print_mode):
     official_list = get_official_list(current_path)
-    return test_performance(
-        "markov", official_list, set(), PERFORMANCE_MARKER, print_mode
-    )
+    strat = MarkovStrategy(official_list.copy(), set(), 5, 6)
+    return test_performance(strat, official_list, set(), PERFORMANCE_MARKER, print_mode)
 
 
 def display_performance(strategy, lst, dt):
@@ -169,9 +169,7 @@ def handle_random_official(print_mode, data, update):
 def handle_simple_filter_official(print_mode, data, update):
     new_value = test_simple_filter_performance_with_official_wordle_list(print_mode)
     if update:
-        update_performance_analytics(
-            data, Strats.SIMPLE_FILTER_OFFICIAL.value, new_value
-        )
+        update_performance_analytics(data, Strats.SIMPLE_FILTER_OFFICIAL.value, new_value)
     display_performance("Simple Filter", "Official Wordle List", new_value)
 
 
@@ -199,9 +197,7 @@ def handle_smart_guess_all_5(print_mode, data, update):
 def handle_index_decision_official(print_mode, data, update):
     new_value = test_index_decision_with_official_wordle_list(print_mode)
     if update:
-        update_performance_analytics(
-            data, Strats.INDEX_DECISION_OFFICIAL.value, new_value
-        )
+        update_performance_analytics(data, Strats.INDEX_DECISION_OFFICIAL.value, new_value)
     display_performance("Index Decision", "Official Wordle List", new_value)
 
 
@@ -222,26 +218,18 @@ def handle_index_decision_large(print_mode, data, update):
 def handle_outside_the_box_official(print_mode, data, update):
     new_value = test_out_the_box_with_official_wordle_list(print_mode)
     if update:
-        update_performance_analytics(
-            data, Strats.OUTSIDE_THE_BOX_OFFICIAL.value, new_value
-        )
+        update_performance_analytics(data, Strats.OUTSIDE_THE_BOX_OFFICIAL.value, new_value)
     display_performance(
-        "Think Outside The Box",
-        "Official Wordle List with Official Guess List",
-        new_value,
+        "Think Outside The Box", "Official Wordle List with Official Guess List", new_value,
     )
 
 
 def handle_outside_the_box_large(print_mode, data, update):
     new_value = test_out_the_box_with_simplified_5_list(print_mode)
     if update:
-        update_performance_analytics(
-            data, Strats.OUTSIDE_THE_BOX_LARGE.value, new_value
-        )
+        update_performance_analytics(data, Strats.OUTSIDE_THE_BOX_LARGE.value, new_value)
     display_performance(
-        "Think Outside The Box",
-        "Large 5-Letter List with all 5 letters Guess List",
-        new_value,
+        "Think Outside The Box", "Large 5-Letter List with all 5 letters Guess List", new_value,
     )
 
 
@@ -295,9 +283,7 @@ if __name__ == "__main__":
             not_valid = False
 
         if Strats.INDEX_DECISION_OFFICIAL.value in args.strategy:
-            handle_index_decision_official(
-                args.show_progress, db, args.update_analytics
-            )
+            handle_index_decision_official(args.show_progress, db, args.update_analytics)
             not_valid = False
 
         if Strats.INDEX_DECISION_ALL_5.value in args.strategy:
@@ -309,9 +295,7 @@ if __name__ == "__main__":
             not_valid = False
 
         if Strats.OUTSIDE_THE_BOX_OFFICIAL.value in args.strategy:
-            handle_outside_the_box_official(
-                args.show_progress, db, args.update_analytics
-            )
+            handle_outside_the_box_official(args.show_progress, db, args.update_analytics)
             not_valid = False
 
         if Strats.OUTSIDE_THE_BOX_LARGE.value in args.strategy:
