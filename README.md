@@ -144,3 +144,5 @@ Optional Arguments:
 
 -sb SECRET_BANK, --secret-bank SECRET_BANK    file path for auxiliary allowed guesses
 </pre>
+
+By default, the Wordle official word bank and secret bank will be used. You can provide your own bank, or can use one provided [here](word_banks/).
