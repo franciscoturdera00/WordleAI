@@ -7,7 +7,7 @@ Designed for variable-length words.
 ### Set Up
 From the **root** directory:
 <pre>
-pip install -r requirements
+pip install -r requirements.txt
 export PYTHONPATH=`pwd`
 </pre>
 
