@@ -33,7 +33,9 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Test with pytest
       run: |
-        python -m pytest --cov=./
+        python -m pytest --cov=./ --cov-report=xml:./coverage/reports/coverage.xml
+        coverage report -m > ${GITHUB_WORKSPACE}/coverage/reports/coverage.txt
+        cat ${GITHUB_WORKSPACE}/coverage/reports/coverage.txt
 
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v2
