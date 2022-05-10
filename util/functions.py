@@ -2,6 +2,7 @@ import random
 
 from strategies.feedback import Feedback
 from itertools import product
+from colorama import Fore
 
 
 def get_word_list_from(path):
@@ -34,11 +35,12 @@ def print_progress(guess, feedback):
     guess_status = ""
     for _, el in enumerate(feedback):
         if el == Feedback.NOT_IN_WORD:
-            guess_status += "X"
+            guess_status += Fore.RED + "X"
         elif el == Feedback.IN_WORD:
-            guess_status += "@"
+            guess_status += Fore.YELLOW + "@"
         elif el == Feedback.CORRECT:
-            guess_status += "$"
+            guess_status += Fore.GREEN + "$"
+    guess_status += Fore.WHITE
     print(guess)
     print(guess_status)
     print()
